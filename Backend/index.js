@@ -3,19 +3,18 @@
  * - attaches a listener on the configured port
  */
 
-import express, { application, json } from 'express';
+import express from 'express';
 import fristRoute from './src/routes/fristRoutes.js';
 import productRouters from './src/routes/productRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
 import mongoose from 'mongoose';
-
 
 const app = express();
 const PORT = 8000;
 
 app.listen(PORT, () => {
     console.log(`Application is running on port ${PORT}`);
-    mongoose.connect("mongodb://localhost:27017");
+    mongoose.connect("mongodb://localhost:27017/cosmos");
 });
  
 /* == Class 3: Define routes
@@ -50,7 +49,16 @@ app.patch("/",(req, res,next)=>{
 })
 
 */
-app.use(json());  // makes ours backend to take data from postman and use it in our backend
+app.use(express.json());  // enables JSON body parsing for incoming requests
+
+// malformed JSON handler
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return res.status(400).json({ error: 'Invalid JSON payload' });
+    }
+    next(err);
+});
+
 // app.use(fristRoute);
 // app.use("/product", productRouters);
 app.use("/user", userRoutes);

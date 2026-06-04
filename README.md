@@ -1,50 +1,3 @@
-# MERN Project (Backend)
-
-## 📖 Project Overview
-
-This repository contains the **backend portion** of a MERN stack application built using:
-
-* **Node.js**
-* **Express.js**
-* **MongoDB (Mongoose)**
-
-It focuses on backend API development, schema design, and route structuring.
-
----
-
-## 📁 Project Structure
-
-```text
-Backend/
-│
-├── index.js                          # Main Express server entry point
-├── src/
-│   ├── routes/
-│   │   ├── fristRoutes.js            # Basic route experiments (root & dynamic routes)
-│   │   ├── userRoutes.js             # User REST API routes
-│   │   ├── productRoutes.js          # Product REST API routes
-│   │
-│   ├── schema/
-│   │   ├── userSchema.js             # Mongoose schema for users
-│   │   ├── productSchema.js          # Mongoose schema for products
-```
-
----
-
-## ⚙️ Tech Stack
-
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* dotenv
-* cors
-* nodemon
-
----
-
-## 📊 Progress Update
-
 ### 🚀 Day 1 – Project Setup
 
 * Initialized backend project
@@ -86,43 +39,82 @@ Backend/
 * Mounted `/user` routes in `index.js`
 * Verified server startup and MongoDB connection
 * Confirmed route scaffolding works
-* Noted product routes are not yet mounted
-* Backend is currently in **scaffold phase**
+* Tested API endpoints using Postman
 
 ---
+
+### ⚡ Day 4 – User CRUD Implementation
+
+* Connected `User` model with route handlers
+* Implemented Create User API (`POST /user`)
+* Implemented Get All Users API (`GET /user`)
+* Implemented Get User By ID API (`GET /user/:id`)
+* Implemented Update User API (`PATCH /user/:id`)
+* Implemented Delete User API (`DELETE /user/:id`)
+* Added async/await based database operations
+* Added basic try-catch error handling
+* Tested CRUD operations successfully using Postman
+
+---
+## 📁 Project Structure
+
+```text
+Backend/
+│
+├── index.js                          # Main Express server entry point
+├── src/
+│   ├── routes/
+│   │   ├── fristRoutes.js            # Basic route experiments (root & dynamic routes)
+│   │   ├── userRoutes.js             # User REST API routes
+│   │   ├── productRoutes.js          # Product REST API routes
+│   │
+│   ├── schema/
+│   │   ├── userSchema.js             # Mongoose schema for users
+│   │   ├── productSchema.js          # Mongoose schema for products
+```
 
 ## 📌 Current Status
 
 * ✅ Express server is running
 * ✅ MongoDB connection established
+* ✅ User schema integrated with MongoDB
+* ✅ User CRUD operations implemented
 * ✅ User routes mounted at `/user`
-* ⚠️ Product routes not yet mounted
-* ⚠️ Models not fully integrated with route handlers
-* ⚠️ CRUD logic not implemented yet
+* ✅ API testing completed with Postman
+* ⚠️ Product CRUD operations pending
+* ⚠️ Validation middleware not implemented
+* ⚠️ Environment variables not fully configured
 
 ---
 
 ## 🚧 Next Steps
 
-* Implement full CRUD operations for users and products
-* Connect Mongoose models with route handlers
+* Implement Product CRUD operations
 * Mount `productRoutes` in `index.js`
-* Add validation and error handling
-* Move configuration values to `.env`
+* Add request validation using Mongoose validators
+* Move MongoDB URI and server port into `.env`
+* Add centralized error handling middleware
 * Improve API response structure
-* Build frontend (React) and integrate with backend
+* Add password hashing with bcrypt
+* Implement JWT Authentication
+* Create React frontend and connect APIs
 
 ---
 
 ## 🧪 Future Enhancements
 
 * JWT Authentication
-* Password hashing (bcrypt)
-* Role-based access control
-* API testing with Postman
-* Centralized error handling middleware
+* Refresh Token System
+* Password Hashing (bcrypt)
+* Role-Based Access Control (RBAC)
+* API Documentation (Swagger/OpenAPI)
+* Centralized Logging
+* Input Validation Middleware
+* Docker Support
+* Deployment (Render / Railway / VPS)
+* Unit & Integration Testing
+* CI/CD Pipeline
 
----
 
 ## 👨‍💻 Author
 

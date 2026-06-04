@@ -1,5 +1,5 @@
 import {Schema, model} from 'mongoose';
-
+import mongoose from 'mongoose';
 let userSchema = Schema({
     name: {
         type: String,
