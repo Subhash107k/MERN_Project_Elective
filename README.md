@@ -1,22 +1,24 @@
-# 🎓 15-Day / 45-Hour MERN Stack Development Course Edition
+# 🎓 18-Day / 54-Hour MERN Stack Development Course Edition
 
 [![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue.svg)](https://mongodb.com)
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org)
 [![Express](https://img.shields.io/badge/Express-v5-black.svg)](https://expressjs.com)
 [![React](https://img.shields.io/badge/React-v18-cyan.svg)](https://react.dev)
 [![Vite](https://img.shields.io/badge/Vite-v6-purple.svg)](https://vitejs.dev)
+[![Docker](https://img.shields.io/badge/Docker-Supported-blue.svg)](https://docker.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A complete, clean, beginner-friendly, production-ready full-stack MERN (MongoDB, Express.js, React, Node.js) educational repository designed for a **15-Day / 45-Hour (3 hours per day)** progressive development curriculum.
+A complete, clean, beginner-friendly, production-ready full-stack MERN (MongoDB, Express.js, React, Node.js) educational repository designed for an expanded **18-Day / 54-Hour (3 hours per day)** progressive development curriculum.
 
 ---
 
 ## 📌 Project Overview
 
-This repository transforms an initial set of fragmented college elective experiments into a single, cohesive, modern MERN application featuring:
-* **Backend API (`backend/`):** Express 5 REST server with MVC architecture, Mongoose schemas, JWT authentication, `bcryptjs` password hashing, input validation, and centralized error handling.
+This repository features:
+* **Backend API (`backend/`):** Express 5 REST server with MVC architecture, Mongoose schemas, JWT authentication, `bcryptjs` password hashing, input validation, Docker support, and centralized error handling.
 * **Frontend SPA (`frontend/`):** Vite + React 18 single-page application with React Router v6 navigation, global `AuthContext`, Axios service layer, and responsive Vanilla CSS components.
-* **15-Day Curriculum (`docs/`):** 15 comprehensive daily learning modules with step-by-step guides, code examples, exercises, common errors, homework, and interview preparation.
+* **18-Day Curriculum (`docs/`):** 18 comprehensive daily learning modules with step-by-step guides, code examples, exercises, common errors, homework, and interview preparation.
+* **DevOps & CI/CD (`.github/`):** GitHub Actions automated CI testing workflow and backend `Dockerfile` configuration.
 * **Automated Test Suite (`tests/`):** Node.js integration and unit test runners for backend APIs and frontend components.
 
 ---
@@ -60,8 +62,8 @@ Frontend React app will open on `http://localhost:5173`.
 ```text
 MERN_Project_Elective/
 ├── README.md                           # Master documentation
-├── COURSE_PLAN.md                      # 15-Day / 45-Hour curriculum schedule
-├── PROJECT_REPORT.md                   # 20-section detailed system engineering report
+├── COURSE_PLAN.md                      # 18-Day / 54-Hour curriculum schedule
+├── PROJECT_REPORT.md                   # Detailed system engineering report
 ├── ERROR_REPORT.md                     # Comprehensive error audit & fix breakdown
 ├── API_DOCUMENTATION.md                # Full REST API endpoint reference
 ├── DATABASE_DOCUMENTATION.md           # Mongoose database schemas & models
@@ -72,7 +74,12 @@ MERN_Project_Elective/
 ├── CONTRIBUTING.md                     # Guidelines for open-source contributions
 ├── .gitignore                          # Environment & dependency ignores
 │
+├── .github/                            # CI/CD Workflows
+│   └── workflows/ci.yml                # GitHub Actions automated test & build pipeline
+│
 ├── backend/                            # Clean Node.js / Express 5 API
+│   ├── Dockerfile                      # Production Docker container definition
+│   ├── .dockerignore                   # Docker build ignores
 │   ├── package.json
 │   ├── .env.example
 │   ├── .env
@@ -101,7 +108,7 @@ MERN_Project_Elective/
 │       ├── routes/AppRoutes.jsx        # React Router v6 navigation table
 │       └── styles/index.css            # Vanilla CSS design system
 │
-├── docs/                               # 15-Day Daily Course Material
+├── docs/                               # 18-Day Daily Course Material
 │   ├── day-01.md                       # JS ESM & Node Foundations
 │   ├── day-02.md                       # Express Server & HTTP Basics
 │   ├── day-03.md                       # Routing & Dynamic Parameters
@@ -116,7 +123,10 @@ MERN_Project_Elective/
 │   ├── day-12.md                       # bcryptjs Password Hashing
 │   ├── day-13.md                       # JWT & Protected Routes
 │   ├── day-14.md                       # Validation, Security & Testing
-│   └── day-15.md                       # Full Integration & Production Build
+│   ├── day-15.md                       # Full Integration & Production Build
+│   ├── day-16.md                       # Advanced File Uploads & Cloud (Multer)
+│   ├── day-17.md                       # Real-Time WebSockets (Socket.io)
+│   └── day-18.md                       # Performance, Docker & CI/CD Pipelines
 │
 └── tests/                              # Automated Test Runners
     ├── backend/api.test.js             # Backend API & Helper tests
@@ -125,7 +135,7 @@ MERN_Project_Elective/
 
 ---
 
-## 📅 15-Day / 45-Hour Course Schedule Summary
+## 📅 18-Day / 54-Hour Course Schedule Summary
 
 | Day | Topic | Feature Covered | Key Practical Deliverable |
 | :---: | :--- | :--- | :--- |
@@ -144,6 +154,9 @@ MERN_Project_Elective/
 | **13** | Authentication | JWT Bearer Tokens | Protected API routes & AuthContext |
 | **14** | Form Validation | Input Sanitization | Automated test suite execution |
 | **15** | Production | Build & Deployment | Final production bundle compilation |
+| **16** | File Uploads | Multer & Cloud Storage | Binary image uploads & URL storage |
+| **17** | WebSockets | Real-Time Events | Socket.io event broadcasting |
+| **18** | DevOps & CI/CD | Docker & GitHub Actions | Docker container & CI pipeline |
 
 ---
 

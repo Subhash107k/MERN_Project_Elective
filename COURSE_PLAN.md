@@ -1,6 +1,6 @@
-# 🗓️ 15-Day / 45-Hour MERN Course Master Schedule
+# 🗓️ 18-Day / 54-Hour MERN Course Master Schedule
 
-The course is structured for **15 days × 3 hours per day = 45 total hours**.
+The course is structured for **18 days × 3 hours per day = 54 total hours**.
 Each 3-hour day is divided into:
 * **1 Hour:** Theory & Core Architectural Concepts
 * **1 Hour:** Guided Live Coding Demonstration
@@ -27,4 +27,7 @@ Each 3-hour day is divided into:
 | **13** | 3h | JWT Authentication | Stateless auth, Bearer tokens | `authMiddleware`, `AuthContext` | Token-protected API routes | [`docs/day-13.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-13.md) |
 | **14** | 3h | Validation & Testing | Input sanitization, unit testing | `validateBody`, `api.test.js` | 100% passing test runner | [`docs/day-14.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-14.md) |
 | **15** | 3h | Full Integration & Build | Production bundling, env secrets | `vite build`, app deployment | Production build compilation | [`docs/day-15.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-15.md) |
-| **Total** | **45h** | | **15 Hours** | **15 Hours** | **15 Hours** | |
+| **16** | 3h | File Uploads & Cloud | Multipart form data, Cloud storage | Multer middleware, image upload | Uploaded image URL in MongoDB | [`docs/day-16.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-16.md) |
+| **17** | 3h | Real-Time WebSockets | WebSockets vs HTTP, Socket.io | Socket.io server & React client | Live real-time event alerts | [`docs/day-17.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-17.md) |
+| **18** | 3h | Performance & Docker | Query indexing, Docker, CI/CD | `Dockerfile`, GitHub Actions CI | Docker container & CI pipeline | [`docs/day-18.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-18.md) |
+| **Total** | **54h** | | **18 Hours** | **18 Hours** | **18 Hours** | |
