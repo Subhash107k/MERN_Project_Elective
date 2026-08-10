@@ -1,21 +1,23 @@
 {
-  "name": "backend",
+  "name": "mern-course-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js"
-  },
-  "keywords": [],
-  "author": "Subhash",
-  "license": "ISC",
+  "description": "Backend REST API for 15-Day / 45-Hour MERN Course Edition",
+  "main": "src/server.js",
   "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "node ../tests/backend/api.test.js"
+  },
+  "keywords": ["mern", "express", "mongoose", "education"],
+  "author": "Subhash",
+  "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.6",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.6.3"
   },
   "devDependencies": {

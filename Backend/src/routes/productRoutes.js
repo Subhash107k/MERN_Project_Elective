@@ -1,32 +1,16 @@
-import { Router } from "express";
+import { Router } from 'express';
+import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from '../controllers/productController.js';
+import { validateBody } from '../middleware/validationMiddleware.js';
 
-const productRouters = Router();
+const router = Router();
 
-productRouters
-.route("/")
-.post((req, res, next) => {
-res.json("Product created successfully");
-})
-.get((req, res, next) => {
-    res.json("Products retrieved successfully");
-});
+router.route('/')
+    .get(getProducts)
+    .post(validateBody(['name', 'price', 'quantity']), createProduct);
 
+router.route('/:id')
+    .get(getProductById)
+    .patch(updateProduct)
+    .delete(deleteProduct);
 
-productRouters
-.route("/:id")
-.get((req, res, next) => {})
-.delete((req, res, next) => {})
-.patch((req, res, next) => {});
-
-export default productRouters;
-
-
-
-/*
-localhost:8000/product, post
-localhost:8000/product, get
-localhost:8000/product/:id, get
-localhost:8000/product/:id, delete
-localhost:8000/product/:id, patch
-
-*/
+export default router;
