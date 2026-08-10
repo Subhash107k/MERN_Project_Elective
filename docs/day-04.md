@@ -1,65 +1,113 @@
-# Day 4 — MongoDB & Mongoose Schemas
+# Day 04 — MongoDB & Mongoose Schemas
 
-## Learning Objectives
-* Understand NoSQL document databases vs traditional relational SQL databases.
-* Connect Node.js applications to MongoDB using the Mongoose ODM (Object Data Modeling) library.
-* Define Mongoose Schemas, data types, constraints, and custom validation error messages.
-* Export Mongoose Models (`mongoose.model()`) for database operations.
+## 🎯 Learning Objectives
+* Understand NoSQL document databases vs relational SQL databases.
+* Connect Express to MongoDB using Mongoose ODM (`mongoose.connect`).
+* Build structured Mongoose schemas with field types and validation constraints.
+* Instantiate Mongoose schemas in `schemas/` and compile models in `models/`.
 
-## What We Learn
-Today we introduce database persistence. We learn how MongoDB stores data as flexible BSON documents and how Mongoose enforces structure, type validation, and required field rules at the application layer.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Without a database model, raw JSON input cannot be validated or stored permanently. Mongoose schemas prevent corrupt or incomplete data from reaching MongoDB collections.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Mongoose Schema:** Structural blueprint defining document fields, data types (`String`, `Number`, `Boolean`), defaults, and validators.
-* **Mongoose Model:** A wrapper constructor compiled from a Schema, providing database query methods (`create`, `find`, `findById`).
-* **Environment Connection String (`MONGO_URI`):** The network connection string used to connect to a local or cloud MongoDB cluster.
+## 📚 Prerequisites
+* Completion of [Day 03](./day-03.md).
+* MongoDB installed locally or MongoDB Atlas connection URI available.
 
-## Project Files
-* [`backend/src/config/database.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/config/database.js)
-* [`backend/src/models/User.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/models/User.js)
-* [`backend/src/models/Product.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/models/Product.js)
+## 🧠 Theory
+MongoDB is a NoSQL document database storing data as flexible BSON objects. Mongoose is an Object Data Modeling (ODM) library for MongoDB that enforces schema structure, validates data types, handles middleware hooks, and compiles models for database queries.
 
-## Step-by-Step Explanation
-1. Define database connection logic in `config/database.js` using `mongoose.connect(process.env.MONGO_URI)`.
-2. Define a Mongoose schema: `const userSchema = new mongoose.Schema({ name: { type: String, required: true } });`.
-3. Compile the schema into a model: `const User = mongoose.model('User', userSchema);`.
-4. Export the model for use in controllers.
+## 🔑 Key Concepts
+* **Mongoose Schema (`new mongoose.Schema()`):** Data layout blueprint enforcing types, rules, and validators.
+* **Mongoose Model (`mongoose.model()`):** Constructor wrapper providing query methods (`find`, `create`).
+* **Connection Manager (`mongoose.connect()`):** Asynchronous connection initializer.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../backend/src/config/database.js`](../backend/src/config/database.js)
+* [`../backend/src/schemas/userSchema.js`](../backend/src/schemas/userSchema.js)
+* [`../backend/src/models/User.js`](../backend/src/models/User.js)
+
+## ⚙️ Installation / Setup
+Inside `backend/`, install mongoose:
+```bash
+cd backend
+npm install mongoose
+```
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Database Connection Module (`backend/src/config/database.js`)
 ```javascript
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema({
-    name: { type: String, required: [true, 'Product name is required'] },
-    price: { type: Number, required: [true, 'Price is required'], min: 0 }
-}, { timestamps: true });
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/mern_course');
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.error(`MongoDB Connection Error: ${error.message}`);
+        process.exit(1);
+    }
+};
 
-export default mongoose.model('Product', productSchema);
+export default connectDB;
 ```
 
-## Practical Exercise
-1. Ensure your local MongoDB service is running (or configure a free MongoDB Atlas connection string in `.env`).
-2. Run `npm run dev` in `backend/`.
-3. Check the terminal to confirm the message `MongoDB Connected: localhost` appears.
+### Step 2: Define User Schema (`backend/src/schemas/userSchema.js`)
+```javascript
+import mongoose from 'mongoose';
 
-## Common Errors
-* **`MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017`**: MongoDB service is not running on your machine. Start MongoDB service or verify connection URI.
+export const userSchema = new mongoose.Schema({
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, minlength: 6, select: false },
+    address: { type: String, required: true },
+    phone: { type: String, required: true }
+}, { timestamps: true });
 
-## How to Debug
-Wrap `mongoose.connect()` in a `try...catch` block and log `error.message` to diagnose database connectivity issues.
+export default userSchema;
+```
 
-## Homework
-Add a `category` field of type `String` with default value `'General'` to `Product.js`.
+### Step 3: Compile User Model (`backend/src/models/User.js`)
+```javascript
+import mongoose from 'mongoose';
+import userSchema from '../schemas/userSchema.js';
 
-## Expected Result
-Server connects cleanly to MongoDB and registers schemas without validation runtime errors.
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+export default User;
+```
 
-## Interview Questions
-1. *What is the difference between a Mongoose Schema and a Mongoose Model?*
-2. *How do timestamps (`timestamps: true`) work in Mongoose schemas?*
+## 🧪 API / Application Testing
+Start server and inspect terminal logs for `MongoDB Connected`.
 
-## Day Summary
-You have connected Express to MongoDB and established schema models with data validation constraints.
+## 🔬 Practical Lab
+Inspect `backend/src/schemas/productSchema.js` and `backend/src/schemas/schoolSchema.js`.
+
+## ✅ Expected Result
+Terminal output: `MongoDB Connected: 127.0.0.1`.
+
+## ⚠️ Common Errors
+* `MongooseServerSelectionError`: MongoDB service is not running locally.
+
+## 🔧 Troubleshooting
+Start MongoDB service via `Start-Service MongoDB` (Windows) or `sudo systemctl start mongod` (Linux). Refer to [Database Documentation](./database.md).
+
+## 📝 Practice Exercise
+Add a `category` field with default `'General'` to `productSchema.js`.
+
+## 📦 Daily Deliverable
+Connected MongoDB database and defined Mongoose schemas.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

@@ -1,63 +1,96 @@
-# Day 12 — Password Hashing & Authentication
+# Day 12 — Password Security & Encryption with `bcryptjs`
 
-## Learning Objectives
-* Understand security risks of storing raw plaintext user passwords.
-* Implement password hashing using `bcryptjs` pre-save hooks in Mongoose.
-* Build user authentication controllers (`registerUser`, `loginUser`).
-* Compare entered passwords against database hashes using instance methods (`matchPassword`).
+## 🎯 Learning Objectives
+* Understand security hazards of plaintext password storage.
+* Explain cryptographic salts, one-way hash functions, and key stretching.
+* Use `bcryptjs` pre-save Mongoose hooks (`pre('save')`) to encrypt passwords automatically.
+* Build custom `matchPassword()` instance methods on Mongoose model schemas.
 
-## What We Learn
-Today we add security to user management. We learn how `bcryptjs` applies cryptographic salt algorithms to turn plaintext passwords into irreversible hash strings before database insertion, and how login routes verify credentials safely.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Storing raw plaintext passwords in a database is a critical security vulnerability. If a database is compromised, plaintext passwords expose users across services.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Salt Factor:** Random cryptographic data added to passwords before hashing to prevent rainbow table attacks.
-* **Mongoose Pre-Save Hook:** Middleware function executing right before document saving (`schema.pre('save')`).
-* **Instance Method (`matchPassword`):** Custom method attached to schema documents comparing typed passwords against stored hashes.
+## 📚 Prerequisites
+* Completion of [Day 11](./day-11.md).
 
-## Project Files
-* [`backend/src/models/User.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/models/User.js)
-* [`backend/src/controllers/authController.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/controllers/authController.js)
+## 🧠 Theory
+Plaintext passwords must never be written to databases. `bcryptjs` generates unique random cryptographic salts (10 rounds) and executes one-way hashing routines, producing irreversible hash strings (`$2a$10$...`).
 
-## Step-by-Step Explanation
-1. Install `bcryptjs`: `npm install bcryptjs` inside `backend/`.
-2. Add pre-save hook in `User.js`: `this.password = await bcrypt.hash(this.password, salt);`.
-3. Add comparison method: `userSchema.methods.matchPassword = async function(pass) { ... }`.
-4. Create `loginUser` controller verifying user credentials and returning user data.
+## 🔑 Key Concepts
+* **One-Way Hash:** Irreversible cryptographic function converting plaintext to hash output.
+* **Salt:** Random data concatenated with passwords to prevent dictionary rainbow table attacks.
+* **Mongoose `pre('save')` Hook:** Middleware automatically hashing modified passwords before MongoDB writes.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../backend/src/schemas/userSchema.js`](../backend/src/schemas/userSchema.js)
+* [`../backend/src/models/User.js`](../backend/src/models/User.js)
+
+## ⚙️ Installation / Setup
+Inside `backend/`:
+```bash
+npm install bcryptjs
+```
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Add Bcrypt Pre-Save Hook & Instance Method (`backend/src/schemas/userSchema.js`)
 ```javascript
-// Pre-save Password Hashing Hook in Mongoose
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+export const userSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true, select: false },
+    address: { type: String, required: true },
+    phone: { type: String, required: true }
+}, { timestamps: true });
+
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
     next();
 });
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+export default userSchema;
 ```
 
-## Practical Exercise
-1. Open Postman and submit `POST /api/auth/register` with `{ name, email, password: "myPassword123" }`.
-2. Open MongoDB Compass or shell and inspect the created user document.
-3. Verify that the `password` field displays a secure hash (e.g. `$2a$10$...`) instead of plaintext.
+## 🧪 API / Application Testing
+Create a user account. Inspect MongoDB documents via Compass to verify `password` field starts with `$2a$10$` instead of plaintext.
 
-## Common Errors
-* **Infinite hashing loop / Double hashing**: Occurs when updating user records without checking `this.isModified('password')`.
+## 🔬 Practical Lab
+Test `user.matchPassword('wrongpass')` returning `false` and `user.matchPassword('password123')` returning `true`.
 
-## How to Debug
-Always include `if (!this.isModified('password')) return next();` inside the Mongoose pre-save hook.
+## ✅ Expected Result
+User passwords stored in MongoDB are irreversibly encrypted hash strings.
 
-## Homework
-Implement custom error handling in `loginUser` returning `401 Unauthorized` when an invalid password is provided.
+## ⚠️ Common Errors
+* Password re-hashed on profile name edit: Missing `if (!this.isModified('password')) return next();` check.
 
-## Expected Result
-User passwords stored as secure `bcryptjs` hashes in MongoDB, with working credential login comparison.
+## 🔧 Troubleshooting
+Ensure password comparison queries explicitly select password field (`User.findOne({ email }).select('+password')`). Refer to [Security Report](./security.md).
 
-## Interview Questions
-1. *Why should passwords never be stored in plaintext in a production database?*
-2. *What is a cryptographic salt and how does it strengthen password hashing?*
+## 📝 Practice Exercise
+Verify that `select: false` prevents password strings from leaking in `GET /api/users` responses.
 
-## Day Summary
-You have secured user passwords using `bcryptjs` cryptographic salt algorithms and implemented secure user authentication routes.
+## 📦 Daily Deliverable
+Encrypted user password pipeline using `bcryptjs` and Mongoose pre-save hooks.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

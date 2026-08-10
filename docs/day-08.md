@@ -1,68 +1,116 @@
-# Day 8 — Client-Side SPA Navigation with React Router v6
+# Day 08 — Client-Side Navigation with React Router v6
 
-## Learning Objectives
+## 🎯 Learning Objectives
 * Understand Single Page Application (SPA) client-side routing concepts.
-* Install and configure `react-router-dom` v6 (`BrowserRouter`, `Routes`, `Route`).
-* Create clean navigation bars using `<NavLink>` to prevent full browser page reloads.
-* Handle dynamic URL path parameters using the `useParams()` hook.
+* Configure `react-router-dom` v6 (`BrowserRouter`, `Routes`, `Route`).
+* Implement navigation bars using `<NavLink>` to prevent full browser page reloads.
+* Extract dynamic URL parameters using the `useParams()` hook.
 
-## What We Learn
-Today we build multi-page navigation without server-side page reloads. We configure a central route table (`AppRoutes.jsx`), map client URL paths to page components, and build a navigation header (`Navbar.jsx`).
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Traditional multi-page websites reload the entire HTML document on every link click. React Router enables instant client-side page transitions while preserving app state.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **`<BrowserRouter>`:** Router provider syncing client UI views with browser URL history.
-* **`<Routes>` & `<Route>`:** Component container mapping specific path strings (`/users`) to React components (`<UserList />`).
-* **`useParams()`:** React Router hook extracting dynamic URL parameter strings (e.g. `:id`).
+## 📚 Prerequisites
+* Completion of [Day 07](./day-07.md).
 
-## Project Files
-* [`frontend/src/routes/AppRoutes.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/routes/AppRoutes.jsx)
-* [`frontend/src/components/Navbar.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/components/Navbar.jsx)
+## 🧠 Theory
+Client-side routing intercepts URL address bar changes in JavaScript, swapping active React DOM components without requesting new HTML documents from web servers.
 
-## Step-by-Step Explanation
-1. Wrap `<App />` inside `<BrowserRouter>` in `main.jsx`.
-2. Define route declarations in `routes/AppRoutes.jsx`.
-3. Create `<Navbar />` with `<NavLink to="/users">Users</NavLink>`.
-4. Implement dynamic route `/users/:id` mapped to `<UserDetail />`.
+## 🔑 Key Concepts
+* **`<BrowserRouter>`:** Top-level history wrapper for React apps.
+* **`<Routes>` & `<Route>`:** Component path matcher (`<Route path="/users" element={<UserList />} />`).
+* **`<NavLink>`:** Link element providing active CSS state styling.
+* **`useParams()` Hook:** Extracts dynamic path parameters (`:id`).
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../frontend/src/routes/AppRoutes.jsx`](../frontend/src/routes/AppRoutes.jsx)
+* [`../frontend/src/components/Navbar.jsx`](../frontend/src/components/Navbar.jsx)
+
+## ⚙️ Installation / Setup
+Inside `frontend/`:
+```bash
+npm install react-router-dom
+```
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Wrap App in `<BrowserRouter>` (`frontend/src/main.jsx`)
 ```jsx
-import { Routes, Route, useParams } from 'react-router-dom';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 
-const UserDetail = () => {
-    const { id } = useParams();
-    return <h2>Viewing User Profile: {id}</h2>;
-};
-
-const AppRoutes = () => (
-    <Routes>
-        <Route path="/users/:id" element={<UserDetail />} />
-    </Routes>
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
 ```
 
-## Practical Exercise
-1. Launch frontend dev server: `npm run dev`.
-2. Click on the Navbar links (`/`, `/users`, `/products`, `/schools`).
-3. Verify that the URL updates and the component changes instantly without refreshing the page browser tab.
+### Step 2: Define Routes (`frontend/src/routes/AppRoutes.jsx`)
+```jsx
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from '../pages/Home';
+import UserList from '../pages/users/UserList';
 
-## Common Errors
-* **`<routes>` is not recognized / invalid JSX**: Caused by importing lowercase `routes` instead of capitalized `Routes` from `react-router-dom`.
+const AppRoutes = () => (
+    <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/users" element={<UserList />} />
+    </Routes>
+);
 
-## How to Debug
-Ensure all React Router tags use proper uppercase naming (`<Routes>`, `<Route>`) and that all routes are enclosed within `<BrowserRouter>`.
+export default AppRoutes;
+```
 
-## Homework
-Add a fallback catch-all route (`<Route path="*" element={<NotFound />} />`) for unmatched client URLs.
+### Step 3: Build Navigation Bar (`frontend/src/components/Navbar.jsx`)
+```jsx
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-## Expected Result
-Smooth client-side navigation between pages with active state link highlighting in Navbar.
+const Navbar = () => (
+    <nav className="navbar">
+        <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
+        <NavLink to="/users" className={({ isActive }) => isActive ? 'active' : ''}>Users</NavLink>
+    </nav>
+);
 
-## Interview Questions
-1. *How does React Router achieve client-side page navigation without triggering a browser refresh?*
-2. *What is the difference between `<Link>` and `<NavLink>` in React Router DOM?*
+export default Navbar;
+```
 
-## Day Summary
-You have configured multi-page client-side SPA routing and dynamic parameter navigation with React Router v6.
+## 🧪 API / Application Testing
+Click Navbar links and verify address bar changes while page remains un-refreshed.
+
+## 🔬 Practical Lab
+Add dynamic route `/users/:id` rendering `UserDetail.jsx` and extract `id` via `useParams()`.
+
+## ✅ Expected Result
+Seamless client-side page transitions with zero browser page reloads.
+
+## ⚠️ Common Errors
+* `<routes>` is not defined: Importing lowercase `{ routes }` instead of capitalized `{ Routes }`.
+
+## 🔧 Troubleshooting
+Ensure `<BrowserRouter>` wraps `<App />` in `main.jsx`. Refer to [Architecture Guide](./architecture.md).
+
+## 📝 Practice Exercise
+Add a catch-all fallback route `<Route path="*" element={<Home />} />`.
+
+## 📦 Daily Deliverable
+Multi-page React SPA with dynamic routing and navigation headers.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

@@ -1,67 +1,113 @@
-# Day 7 — React & Vite Setup
+# Day 07 — React & Vite Setup
 
-## Learning Objectives
-* Understand React single-page application (SPA) architecture.
-* Initialize a lightweight React project using Vite (`npm create vite@latest`).
-* Learn JSX syntax, component composition, props, and state (`useState`).
-* Structure a clean frontend directory hierarchy (`components/`, `pages/`, `styles/`).
+## 🎯 Learning Objectives
+* Understand Single Page Application (SPA) frontend concepts.
+* Initialize a lightweight React 18 project using Vite 6 (`npm create vite@latest`).
+* Write JSX syntax and functional React components.
+* Manage dynamic component state using the `useState` hook.
 
-## What We Learn
-Today we switch to frontend development. We set up a modern React application with Vite HMR (Hot Module Replacement), explore JSX template rendering, and manage component state using React hooks.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Vite provides instant dev server startup and lightning-fast builds compared to legacy tools. Understanding React components prepares us for building dynamic client user interfaces.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **JSX (JavaScript XML):** Syntax extension allowing HTML-like markup directly inside JavaScript files.
-* **Component:** Reusable UI building block returning JSX elements.
-* **`useState` Hook:** React hook enabling functional components to declare and update local state variables.
+## 📚 Prerequisites
+* Completion of [Day 06](./day-06.md).
+* Node.js v18+ installed.
 
-## Project Files
-* [`frontend/package.json`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/package.json)
-* [`frontend/src/main.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/main.jsx)
-* [`frontend/src/App.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/App.jsx)
+## 🧠 Theory
+React is a component-driven JavaScript library for building interactive user interfaces. Vite is a modern frontend build tool leveraging native browser ES Modules for near-instant dev server startup and Hot Module Replacement (HMR).
 
-## Step-by-Step Explanation
-1. Open terminal and navigate to `frontend/`.
-2. Run `npm install` to install React, React DOM, and Vite dependencies.
-3. Run `npm run dev` to launch the Vite local development server (`http://localhost:5173`).
-4. Inspect `main.jsx` rendering `<App />` into the DOM root element (`#root`).
+## 🔑 Key Concepts
+* **JSX:** Extension allowing HTML-like syntax inside JavaScript files.
+* **Component:** Independent, reusable functional UI blocks.
+* **Props:** Read-only inputs passed from parent components to child components.
+* **`useState` Hook:** React hook managing local reactive component state (`const [count, setCount] = useState(0)`).
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../frontend/package.json`](../frontend/package.json)
+* [`../frontend/vite.config.js`](../frontend/vite.config.js)
+* [`../frontend/src/main.jsx`](../frontend/src/main.jsx)
+* [`../frontend/src/App.jsx`](../frontend/src/App.jsx)
+* [`../frontend/src/components/Button.jsx`](../frontend/src/components/Button.jsx)
+
+## ⚙️ Installation / Setup
+Inside `frontend/`, install dependencies:
+```bash
+cd frontend
+npm install
+```
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Create Reusable `<Button />` Component (`frontend/src/components/Button.jsx`)
 ```jsx
-import React, { useState } from 'react';
+import React from 'react';
 
-const Counter = () => {
-    const [count, setCount] = useState(0);
+const Button = ({ children, type = 'button', variant = 'primary', onClick }) => {
     return (
-        <button onClick={() => setCount(count + 1)}>
-            Clicked {count} times
+        <button type={type} onClick={onClick} className={`btn btn-${variant}`}>
+            {children}
         </button>
     );
 };
+
+export default Button;
 ```
 
-## Practical Exercise
-1. Create a `Button.jsx` component inside `frontend/src/components/`.
-2. Pass `variant` and `children` props to customize button styling.
-3. Import and render the button inside `App.jsx`.
+### Step 2: Use State in Component (`frontend/src/App.jsx`)
+```jsx
+import React, { useState } from 'react';
+import Button from './components/Button';
 
-## Common Errors
-* **`Uncaught ReferenceError: React is not defined`**: Happens in older React setups. Ensure modern JSX transform or React import is active.
+const App = () => {
+    const [count, setCount] = useState(0);
 
-## How to Debug
-Use browser developer tools (F12 inspect element -> Console tab) to catch client rendering runtime errors.
+    return (
+        <div style={{ padding: '2rem' }}>
+            <h1>Counter: {count}</h1>
+            <Button onClick={() => setCount(count + 1)}>Increment</Button>
+        </div>
+    );
+};
 
-## Homework
-Create a `Card.jsx` component that accepts `title` and `children` props and renders a styled white container.
+export default App;
+```
 
-## Expected Result
-Browser opens `http://localhost:5173` showing clean React component rendering with instant HMR updates on file save.
+## 🧪 API / Application Testing
+Launch Vite dev server:
+```bash
+npm run dev
+```
+Open `http://localhost:5173/` in browser and test button click.
 
-## Interview Questions
-1. *What is the difference between props and state in React?*
-2. *Why is Vite significantly faster than traditional webpack dev servers?*
+## 🔬 Practical Lab
+Build a reusable `<Card />` component in `frontend/src/components/Card.jsx`.
 
-## Day Summary
-You have initialized a Vite + React SPA environment and mastered basic component composition and state management.
+## ✅ Expected Result
+Browser renders interactive counter incrementing state dynamically without page reload.
+
+## ⚠️ Common Errors
+* `'vite' is not recognized as an internal command`: Missing `node_modules` in `frontend/`.
+
+## 🔧 Troubleshooting
+Run `npm install` inside `frontend/`. Refer to [Installation Guide](./installation.md).
+
+## 📝 Practice Exercise
+Add Decrement and Reset buttons to `App.jsx`.
+
+## 📦 Daily Deliverable
+Functional React application with components, props, and `useState`.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

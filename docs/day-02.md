@@ -1,67 +1,110 @@
-# Day 2 — Express Server Setup & HTTP Basics
+# Day 02 — Express Server Setup & HTTP Basics
 
-## Learning Objectives
-* Understand what Express.js is and why it is used for Node.js web servers.
-* Learn how HTTP Request and Response lifecycles work (`req`, `res`).
-* Build a functional Express HTTP server listening on configured ports.
-* Configure global JSON middleware (`express.json()`, `cors()`).
+## 🎯 Learning Objectives
+* Understand Express.js web framework fundamentals.
+* Configure an Express application listening on custom network ports (Port 8000).
+* Handle HTTP requests (`req`) and format JSON responses (`res`).
+* Apply global Express middleware (`cors()`, `express.json()`).
 
-## What We Learn
-Today we initialize an Express application server. We learn how HTTP requests enter server ports, how Express routes requests through middleware functions, and how HTTP status codes (200, 404, 500) convey response state back to clients.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Raw Node.js HTTP modules require extensive boilerplate code to handle routing and request parsing. Express simplifies HTTP web server creation into clean, readable middleware pipelines.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Express Application (`express()`):** The core application object managing routing, settings, and HTTP middleware.
-* **Middleware (`app.use()`):** Functions executed sequentially during the HTTP request-response cycle.
-* **Port Listener (`app.listen()`):** Binds the application to a specific TCP network port to receive incoming requests.
+## 📚 Prerequisites
+* Completion of [Day 01](./day-01.md).
+* Node.js v18+ installed.
 
-## Project Files
-* [`backend/src/server.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/server.js)
-* [`backend/.env.example`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/.env.example)
+## 🧠 Theory
+Express.js is a unopinionated web framework for Node.js. It simplifies HTTP server creation, request routing, and middleware processing. Every HTTP transaction consists of an incoming `IncomingMessage` (`req`) and outgoing `ServerResponse` (`res`).
 
-## Step-by-Step Explanation
-1. Import `express` and `cors` into `backend/src/server.js`.
-2. Instantiate the server app: `const app = express();`.
-3. Mount body-parsing middleware: `app.use(express.json());`.
-4. Create a health check GET route: `app.get('/', (req, res) => ... )`.
-5. Start the server listener: `app.listen(8000, () => console.log('Running on port 8000'));`.
+## 🔑 Key Concepts
+* **Express App (`express()`):** Core application instance configuring routes and middleware.
+* **Port Listener (`app.listen()`):** Binds the server to a TCP port to accept requests.
+* **Middleware (`app.use()`):** Functions executing in sequence during request processing.
+* **HTTP Status Codes:** `200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`, `500 Internal Server Error`.
 
-## Code Examples
-```javascript
-import express from 'express';
+## 🏗️ Project Structure
+* [`../backend/src/server.js`](../backend/src/server.js)
+* [`../backend/.env.example`](../backend/.env.example)
 
-const app = express();
-app.use(express.json());
-
-app.get('/api/health', (req, res) => {
-    res.status(200).json({ status: 'healthy', uptime: process.uptime() });
-});
-
-app.listen(8000, () => console.log('Server started on port 8000'));
+## ⚙️ Installation / Setup
+Inside `backend/`, install packages:
+```bash
+cd backend
+npm install express cors dotenv
+npm install --save-dev nodemon
 ```
 
-## Practical Exercise
-1. Run `cd backend && npm run dev` to start the development server using `nodemon`.
-2. Open your web browser or Postman and navigate to `http://localhost:8000/`.
-3. Verify that the server returns a 200 OK JSON response.
+## 💻 Step-by-Step Coding
 
-## Common Errors
-* **`EADDRINUSE: address already in use :::8000`**: Port 8000 is occupied by another process. Kill the process or change the port in `.env`.
+### Step 1: Create `.env` Environment Configuration
+```env
+PORT=8000
+NODE_ENV=development
+```
 
-## How to Debug
-Check terminal console logs to verify that `app.listen()` has executed without port conflict errors.
+### Step 2: Configure Express Entry Point (`backend/src/server.js`)
+```javascript
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
 
-## Homework
-Add a GET route `/api/info` that returns a JSON object containing your course name, date, and author name.
+dotenv.config();
 
-## Expected Result
-Browser loading `http://localhost:8000/` displays a clean JSON response confirming server operation.
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-## Interview Questions
-1. *What is the role of `express.json()` middleware in an Express application?*
-2. *What does the HTTP 404 status code indicate?*
+app.use(cors());
+app.use(express.json());
 
-## Day Summary
-You have built a fully functional Express HTTP server capable of parsing JSON payloads and serving API responses.
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: '18-Day / 45-Hour MERN Stack Course REST API is running cleanly',
+        version: '1.0.0'
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`);
+});
+```
+
+## 🧪 API / Application Testing
+Start dev server with nodemon:
+```bash
+npm run dev
+```
+Open `http://localhost:8000/` in browser or Postman.
+
+## 🔬 Practical Lab
+Add a GET route `/api/health` returning uptime seconds (`process.uptime()`).
+
+## ✅ Expected Result
+Browser displays JSON response: `{"success":true,"message":"18-Day / 45-Hour MERN Stack Course REST API is running cleanly","version":"1.0.0"}`.
+
+## ⚠️ Common Errors
+* `EADDRINUSE :::8000`: Port 8000 is occupied by another process.
+
+## 🔧 Troubleshooting
+Terminate background Node process using Task Manager or change `PORT=8001` in `.env`. Refer to [Troubleshooting Guide](./troubleshooting.md).
+
+## 📝 Practice Exercise
+Add custom headers using `res.setHeader('X-Powered-By', 'MERN Course App')`.
+
+## 📦 Daily Deliverable
+Functional Express HTTP server responding to GET requests.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

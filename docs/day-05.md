@@ -1,68 +1,108 @@
-# Day 5 — REST API & Full CRUD Implementation
+# Day 05 — REST API & Full CRUD Implementation
 
-## Learning Objectives
+## 🎯 Learning Objectives
 * Build full RESTful Create, Read, Update, Delete (CRUD) endpoints.
-* Implement database query methods (`Model.create`, `find`, `findById`, `findByIdAndUpdate`, `findByIdAndDelete`).
-* Return appropriate HTTP status codes (201 Created, 200 OK, 404 Not Found).
-* Structure standardized JSON API responses.
+* Execute Mongoose query methods (`create`, `find`, `findById`, `findByIdAndUpdate`, `findByIdAndDelete`).
+* Return semantic HTTP status codes (`200 OK`, `201 Created`, `404 Not Found`).
+* Send standardized JSON response payloads using response helpers.
 
-## What We Learn
-Today we build operational database endpoints. We learn how POST requests persist new documents, GET requests retrieve records, PATCH requests update specific fields, and DELETE requests remove documents.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-CRUD operations form the back-bone of data-driven web applications. Understanding database CRUD queries enables developers to serve client frontend requirements.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Create (`POST`):** Instantiates and saves new database documents via `Model.create(req.body)`.
-* **Read (`GET`):** Queries database collections using `Model.find()` or `Model.findById(id)`.
-* **Update (`PATCH`):** Modifies existing documents using `Model.findByIdAndUpdate(id, data, { new: true })`.
-* **Delete (`DELETE`):** Removes documents using `Model.findByIdAndDelete(id)`.
+## 📚 Prerequisites
+* Completion of [Day 04](./day-04.md).
 
-## Project Files
-* [`backend/src/controllers/userController.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/controllers/userController.js)
-* [`backend/src/routes/userRoutes.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/routes/userRoutes.js)
+## 🧠 Theory
+REST (Representational State Transfer) is an architectural style for HTTP APIs. Standard HTTP methods map to CRUD database operations: `POST` (Create), `GET` (Read), `PATCH`/`PUT` (Update), and `DELETE` (Delete).
 
-## Step-by-Step Explanation
-1. Import Mongoose Model into the controller file.
-2. Write async handlers for each CRUD action.
-3. Handle missing resources with 404 status codes.
-4. Test all 5 endpoints (`POST`, `GET all`, `GET by ID`, `PATCH`, `DELETE`) in Postman.
+## 🔑 Key Concepts
+* **`User.create(data)`:** Inserts new document into collection.
+* **`User.find()`:** Queries documents matching filters.
+* **`User.findByIdAndUpdate(id, data, { new: true })`:** Updates document fields and returns updated object.
+* **`User.findByIdAndDelete(id)`:** Removes document from database.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../backend/src/controllers/userController.js`](../backend/src/controllers/userController.js)
+* [`../backend/src/routes/userRoutes.js`](../backend/src/routes/userRoutes.js)
+
+## ⚙️ Installation / Setup
+No new packages required.
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Implement User CRUD Controller (`backend/src/controllers/userController.js`)
 ```javascript
-// Example User Creation Controller
+import User from '../models/User.js';
+
 export const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body);
         res.status(201).json({ success: true, data: user });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
+export const getUsers = async (req, res) => {
+    try {
+        const users = await User.find().select('-password');
+        res.status(200).json({ success: true, data: users });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+export const updateUser = async (req, res) => {
+    try {
+        const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.status(200).json({ success: true, data: updated });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.status(200).json({ success: true, message: 'User deleted' });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
     }
 };
 ```
 
-## Practical Exercise
-1. Open Postman and send `POST /api/users` with a valid JSON body.
-2. Copy the returned `_id` field.
-3. Send `GET /api/users/<id>` using the copied ID.
-4. Send `PATCH /api/users/<id>` to update the user's name.
-5. Send `DELETE /api/users/<id>` to remove the user.
+## 🧪 API / Application Testing
+Test `POST /api/users` and `GET /api/users` in Postman or Thunder Client. Refer to [API Testing Guide](./api-testing.md).
 
-## Common Errors
-* **`CastError: Cast to ObjectId failed for value "123"`**: The ID passed in URL parameters is not a valid 24-character hex MongoDB ObjectId.
+## 🔬 Practical Lab
+Implement full CRUD controllers for `Product` model in `productController.js`.
 
-## How to Debug
-Validate `req.params.id` length or wrap Mongoose database calls in try-catch blocks to return clean error messages.
+## ✅ Expected Result
+`POST /api/users` creates document in MongoDB and returns HTTP 201.
 
-## Homework
-Implement full CRUD endpoints for the `School` entity in `backend/src/controllers/schoolController.js`.
+## ⚠️ Common Errors
+* `findByIdAndUpdate` returns old document: Forgetting `{ new: true }` option.
 
-## Expected Result
-All 5 HTTP CRUD endpoints execute successfully and return consistent JSON payloads.
+## 🔧 Troubleshooting
+Verify MongoDB service is active. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## Interview Questions
-1. *What is the difference between PUT and PATCH HTTP methods for updating resources?*
-2. *Why should database operations always use `async/await` in Node.js?*
+## 📝 Practice Exercise
+Add validation checking if email already exists before `User.create()`.
 
-## Day Summary
-You have built full RESTful CRUD API endpoints operating against a live MongoDB database.
+## 📦 Daily Deliverable
+Functional RESTful CRUD API endpoints for users and products.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

@@ -1,74 +1,125 @@
-# Day 11 — Reading & Rendering Database Data in React
+# Day 11 — Fetching & Rendering Database Lists with `useEffect`
 
-## Learning Objectives
-* Fetch database records using the React `useEffect` hook.
-* Render arrays of objects dynamically using JavaScript `.map()`.
-* Handle unique key props (`key={item._id}`) when rendering lists.
-* Build empty state containers, loading spinners, and item deletion handlers.
+## 🎯 Learning Objectives
+* Use the React `useEffect` hook to fetch data on component mounting.
+* Render arrays of database documents into HTML tables using JavaScript `.map()`.
+* Assign unique `key` props to iterated JSX list elements.
+* Implement UI loading spinners (`<Loading />`) and delete triggers.
 
-## What We Learn
-Today we render database records in React components. We learn how `useEffect` executes data fetching on component mount, how `.map()` transforms array objects into JSX tables, and how UI lists update after record deletion.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Displaying database data is a core requirement for web applications. Proper list rendering and state synchronization ensures user interface views reflect database changes.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **`useEffect` Hook:** Executes side effects (such as HTTP data fetching) after component rendering.
-* **Array `.map()`:** Method transforming document arrays into lists of JSX table rows or cards.
-* **React `key` Prop:** Unique identifier (`key={user._id}`) assisting React Virtual DOM reconciliation.
+## 📚 Prerequisites
+* Completion of [Day 10](./day-10.md).
 
-## Project Files
-* [`frontend/src/pages/users/UserList.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/pages/users/UserList.jsx)
-* [`frontend/src/pages/products/ProductList.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/pages/products/ProductList.jsx)
-* [`frontend/src/components/Table.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/components/Table.jsx)
+## 🧠 Theory
+`useEffect(effectFn, [])` executes side effects (such as fetching data over HTTP) after React mounts components to the DOM. JavaScript `.map()` projects data array objects into rendered JSX table row components.
 
-## Step-by-Step Explanation
-1. Declare list state: `const [users, setUsers] = useState([]);`.
-2. Fetch data inside `useEffect`: `useEffect(() => { fetchUsers(); }, []);`.
-3. Render data table using `.map()`: `users.map(u => <tr key={u._id}>...</tr>)`.
-4. Add deletion handler that filters out deleted items from local state.
+## 🔑 Key Concepts
+* **`useEffect` Hook:** Manages asynchronous component side effects.
+* **Empty Dependency Array `[]`:** Ensures effect runs once on initial component mounting.
+* **`key={item._id}`:** React virtual DOM identifier tracking element updates and deletions.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../frontend/src/pages/users/UserList.jsx`](../frontend/src/pages/users/UserList.jsx)
+* [`../frontend/src/components/Table.jsx`](../frontend/src/components/Table.jsx)
+
+## ⚙️ Installation / Setup
+No new packages required.
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Build Table Component (`frontend/src/components/Table.jsx`)
+```jsx
+import React from 'react';
+
+const Table = ({ headers, children }) => (
+    <table className="table">
+        <thead>
+            <tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
+        </thead>
+        <tbody>{children}</tbody>
+    </table>
+);
+
+export default Table;
+```
+
+### Step 2: Fetch and Render User List (`frontend/src/pages/users/UserList.jsx`)
 ```jsx
 import React, { useEffect, useState } from 'react';
-import { getUsersApi } from '../services/api';
+import { getUsersApi, deleteUserApi } from '../../services/api';
+import Table from '../../components/Table';
+import Button from '../../components/Button';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
+
+    const fetchUsers = async () => {
+        const res = await getUsersApi();
+        setUsers(res.data.data || []);
+    };
+
     useEffect(() => {
-        getUsersApi().then(res => setUsers(res.data.data));
+        fetchUsers();
     }, []);
 
+    const handleDelete = async (id) => {
+        if (!window.confirm('Delete user?')) return;
+        await deleteUserApi(id);
+        setUsers(users.filter(u => u._id !== id));
+    };
+
     return (
-        <ul>
-            {users.map(user => (
-                <li key={user._id}>{user.name} - {user.email}</li>
+        <Table headers={['Name', 'Email', 'Address', 'Phone', 'Actions']}>
+            {users.map(u => (
+                <tr key={u._id}>
+                    <td>{u.name}</td>
+                    <td>{u.email}</td>
+                    <td>{u.address}</td>
+                    <td>{u.phone}</td>
+                    <td><Button onClick={() => handleDelete(u._id)}>Delete</Button></td>
+                </tr>
             ))}
-        </ul>
+        </Table>
     );
 };
+
+export default UserList;
 ```
 
-## Practical Exercise
-1. Navigate to `http://localhost:5173/users`.
-2. Verify that all user records stored in MongoDB display cleanly inside the data table.
-3. Click the "Delete" button on a row and confirm that the item vanishes from UI immediately.
+## 🧪 API / Application Testing
+Navigate to `/users` in browser. Verify users stored in MongoDB render cleanly in the HTML table.
 
-## Common Errors
-* **`Warning: Each child in a list should have a unique "key" prop`**: Happens when `.map()` elements do not specify a unique `key={item._id}` attribute.
+## 🔬 Practical Lab
+Build `ProductList.jsx` and `SchoolList.jsx` to render product catalog and school directory records.
 
-## How to Debug
-Check browser developer tools Console for key warnings or inspect the Network tab response payload to verify array structure.
+## ✅ Expected Result
+Live MongoDB records render in formatted table with real-time UI delete triggers.
 
-## Homework
-Implement list rendering and item deletion inside `SchoolList.jsx`.
+## ⚠️ Common Errors
+* Infinite HTTP request loop: Calling state setters inside `useEffect` without providing `[]` dependency array.
 
-## Expected Result
-Interactive React data tables displaying live database records with working view, edit, and delete actions.
+## 🔧 Troubleshooting
+Ensure dependency array `[]` is provided as second parameter to `useEffect`. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## Interview Questions
-1. *Why does React require a unique `key` prop when rendering array lists?*
-2. *What happens if you omit the dependency array `[]` in a `useEffect` hook?*
+## 📝 Practice Exercise
+Add empty state fallback (`<p>No user records found</p>`) when array length is 0.
 
-## Day Summary
-You have fetched database data using `useEffect` and rendered dynamic data tables using React array mapping.
+## 📦 Daily Deliverable
+Formatted database list tables with dynamic fetch and delete triggers.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

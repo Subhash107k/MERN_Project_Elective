@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.status(200).json({
         success: true,
-        message: '15-Day MERN Stack Course REST API is running cleanly',
+        message: '18-Day / 45-Hour MERN Stack Course REST API is running cleanly',
         version: '1.0.0'
     });
 });

@@ -1,7 +1,7 @@
 {
   "name": "mern-course-backend",
   "version": "1.0.0",
-  "description": "Backend REST API for 15-Day / 45-Hour MERN Course Edition",
+  "description": "Backend REST API for 18-Day / 45-Hour MERN Course Edition",
   "main": "src/server.js",
   "type": "module",
   "scripts": {

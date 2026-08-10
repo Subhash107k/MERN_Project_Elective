@@ -1,65 +1,106 @@
-# Day 14 — Validation, Security Audit & Testing
+# Day 14 — Validation, Security & Automated Testing
 
-## Learning Objectives
-* Conduct a full security audit across frontend and backend layers.
-* Implement server-side input validation middleware (`validateBody`).
-* Implement NID unique identifier handling with upsert workflows.
-* Write and execute automated unit and integration tests for backend APIs and frontend components.
+## 🎯 Learning Objectives
+* Validate incoming request payloads via Express validation middleware (`validationMiddleware.js`).
+* Protect Express backend servers against OWASP top security risks (XSS, Injection).
+* Write and execute automated backend API unit and integration tests using Node test runners.
+* Execute automated frontend component configuration assertions.
 
-## What We Learn
-Today we audit and harden application quality. We implement strict payload validation middleware, handle unique NID identifier workflows to prevent duplicate records, and run automated node test runners to verify API endpoints.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Unvalidated input leads to database corruption, NoSQL injection vulnerabilities, and system crashes. Automated test suites ensure code changes do not break existing features.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Server-Side Validation:** Validating input parameters at the API gateway before executing database queries.
-* **NID Upsert Workflow:** Updating existing identifier records instead of throwing duplicate key database crashes.
-* **Automated Testing:** Programmatically asserting that software units return expected outputs under test conditions.
+## 📚 Prerequisites
+* Completion of [Day 13](./day-13.md).
 
-## Project Files
-* [`backend/src/middleware/validationMiddleware.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/middleware/validationMiddleware.js)
-* [`tests/backend/api.test.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/tests/backend/api.test.js)
-* [`tests/frontend/components.test.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/tests/frontend/components.test.js)
+## 🧠 Theory
+Automated testing programmatically executes assertions (`assert.strictEqual`) against backend helper functions and API handlers, verifying code correctness automatically on every build.
 
-## Step-by-Step Explanation
-1. Mount `validateBody(['name', 'email', 'password'])` middleware on user endpoints.
-2. Add NID checking in `authController.js`: search by NID and update existing document if match found.
-3. Open terminal in `backend/` and run `npm test` to execute automated test suite.
-4. Verify all assertions pass with green checkmarks.
+## 🔑 Key Concepts
+* **Input Validation:** Rejecting invalid email formats or short passwords before database queries.
+* **Node Test Runner:** Built-in test execution engine (`node --test` or `node script.js`).
+* **Assertions:** Verification conditions asserting expected outputs match actual outputs.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../backend/src/middleware/validationMiddleware.js`](../backend/src/middleware/validationMiddleware.js)
+* [`../tests/backend/api.test.js`](../tests/backend/api.test.js)
+* [`../tests/frontend/components.test.js`](../tests/frontend/components.test.js)
+
+## ⚙️ Installation / Setup
+No extra test packages required (uses Node's native `node:assert` module).
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Create Validation Middleware (`backend/src/middleware/validationMiddleware.js`)
 ```javascript
-// Lightweight Validation Middleware Example
-export const validateBody = (fields) => (req, res, next) => {
-    const missing = fields.filter(f => !req.body[f]);
-    if (missing.length > 0) {
-        return res.status(400).json({ message: `Missing fields: ${missing.join(', ')}` });
+export const validateUserBody = (req, res, next) => {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password || password.length < 6) {
+        res.status(400);
+        throw new Error('Validation Error: Invalid or missing user payload fields');
     }
     next();
 };
 ```
 
-## Practical Exercise
-1. Run `cd backend && npm test` in terminal.
-2. Run `cd frontend && npm test` in terminal.
-3. Confirm that both test runners output `ALL TESTS PASSED SUCCESSFULLY!`.
+### Step 2: Automated Backend Test Script (`tests/backend/api.test.js`)
+```javascript
+import assert from 'node:assert';
+import { sendSuccess, sendError } from '../../backend/src/utils/response.js';
 
-## Common Errors
-* **`AssertionError: Expected 200, got 400`**: Indicates a failing test assertion. Inspect output log trace to locate parameter mismatch.
+const mockRes = {
+    statusCode: 0,
+    jsonPayload: null,
+    status(code) { this.statusCode = code; return this; },
+    json(data) { this.jsonPayload = data; return this; }
+};
 
-## How to Debug
-Read test output error messages carefully to identify which module or response helper failed assertion tests.
+sendSuccess(mockRes, 200, 'Success', { id: 1 });
+assert.strictEqual(mockRes.statusCode, 200);
+assert.strictEqual(mockRes.jsonPayload.success, true);
 
-## Homework
-Add a test case in `tests/backend/api.test.js` checking that invalid JSON requests return status code 400.
+sendError(mockRes, 400, 'Error');
+assert.strictEqual(mockRes.statusCode, 400);
+assert.strictEqual(mockRes.jsonPayload.success, false);
 
-## Expected Result
-100% passing automated test suite verifying input validation, error handling, and response helper utilities.
+console.log('✅ ALL BACKEND TESTS PASSED SUCCESSFULLY!');
+```
 
-## Interview Questions
-1. *Why should input validation be performed on both client and server sides?*
-2. *What is the difference between unit testing and integration testing?*
+## 🧪 API / Application Testing
+Run backend and frontend tests from root terminal:
+```bash
+cd backend && npm test
+cd ../frontend && npm test
+```
 
-## Day Summary
-You have implemented input payload validation, duplicate NID upsert handling, and verified application reliability with automated test runners.
+## 🔬 Practical Lab
+Add an assertion in `api.test.js` checking `asyncHandler` error forwarding.
+
+## ✅ Expected Result
+Terminal outputs `🎉 ALL BACKEND TESTS PASSED SUCCESSFULLY!`.
+
+## ⚠️ Common Errors
+* `AssertionError`: Test assertion condition evaluated to false.
+
+## 🔧 Troubleshooting
+Inspect assertion diffs to correct function output logic. Refer to [Testing Guide](./testing.md).
+
+## 📝 Practice Exercise
+Add input validation asserting phone numbers contain only numeric digits.
+
+## 📦 Daily Deliverable
+Validation middleware and passing automated test runners.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

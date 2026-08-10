@@ -1,64 +1,125 @@
-# Day 10 — Full-Stack Integration with Axios & CORS
+# Day 10 — Full-Stack Integration with Axios API Layer
 
-## Learning Objectives
-* Connect React frontend components to Express backend API endpoints using Axios.
-* Configure Cross-Origin Resource Sharing (CORS) on Express server.
-* Build a centralized Axios service layer (`services/api.js`).
-* Manage asynchronous request lifecycle states (`loading`, `success`, `error`).
+## 🎯 Learning Objectives
+* Configure an Axios instance with base URL settings (`VITE_API_URL`).
+* Understand CORS (Cross-Origin Resource Sharing) between frontend (5173) and backend (8000).
+* Send asynchronous HTTP POST requests from React forms to Express API routes.
+* Handle API success and error banners gracefully in the UI.
 
-## What We Learn
-Today we connect the React client to the Node server. We learn how Axios executes asynchronous HTTP requests (`API.post()`, `API.get()`), how CORS headers authorize cross-origin browser requests, and how loading spinners communicate network states.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Scattering raw `fetch` calls across components creates duplicated code and inconsistent error handling. A centralized Axios service layer organizes API endpoint definitions in one location.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **Axios Instance:** Pre-configured HTTP client storing `baseURL` and global headers.
-* **CORS (Cross-Origin Resource Sharing):** Browser security mechanism allowing client apps (`localhost:5173`) to request resources from servers (`localhost:8000`).
-* **Async Request States:** Managing `loading` boolean state and `error` string banners during HTTP calls.
+## 📚 Prerequisites
+* Completion of [Day 09](./day-09.md).
+* Backend API server running on `http://localhost:8000`.
 
-## Project Files
-* [`frontend/src/services/api.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/services/api.js)
-* [`backend/src/server.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/server.js)
-* [`frontend/src/pages/products/CreateProduct.jsx`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/frontend/src/pages/products/CreateProduct.jsx)
+## 🧠 Theory
+Axios is a Promise-based HTTP client. Configuring a centralized Axios service layer (`services/api.js`) centralizes base API URLs and request/response interceptors across the entire React frontend application.
 
-## Step-by-Step Explanation
-1. Define Axios client instance in `services/api.js`: `const API = axios.create({ baseURL: ... });`.
-2. Export API service functions: `export const createProductApi = (data) => API.post('/products', data);`.
-3. Import service function in React component and invoke inside `handleSubmit`.
-4. Wrap in `try...catch...finally` block to update loading and error states.
+## 🔑 Key Concepts
+* **Axios Instance (`axios.create()`):** Pre-configured HTTP client instance.
+* **Base URL (`import.meta.env.VITE_API_URL`):** Dynamically bound API path prefix (`http://localhost:8000/api`).
+* **CORS:** Backend security header allowing requests from `http://localhost:5173`.
 
-## Code Examples
-```javascript
-// Centralized Axios API Service
-import axios from 'axios';
+## 🏗️ Project Structure
+* [`../frontend/src/services/api.js`](../frontend/src/services/api.js)
+* [`../frontend/.env`](../frontend/.env)
 
-const API = axios.create({ baseURL: 'http://localhost:8000/api' });
-
-export const createUserApi = (userData) => API.post('/users', userData);
+## ⚙️ Installation / Setup
+Inside `frontend/`:
+```bash
+npm install axios
 ```
 
-## Practical Exercise
-1. Ensure Express backend is running on `http://localhost:8000`.
-2. Open `CreateProduct.jsx` on frontend dev server (`http://localhost:5173/products/create`).
-3. Fill out product fields (Name, Price, Quantity) and submit.
-4. Verify that the product document is created in MongoDB database.
+## 💻 Step-by-Step Coding
 
-## Common Errors
-* **`Access to XMLHttpRequest at 'http://localhost:8000/api' from origin 'http://localhost:5173' has been blocked by CORS policy`**: Express server is missing `app.use(cors())` middleware.
+### Step 1: Create Centralized Axios Client (`frontend/src/services/api.js`)
+```javascript
+import axios from 'axios';
 
-## How to Debug
-Check browser developer tools Network tab -> response headers to verify `Access-Control-Allow-Origin` header presence.
+const API = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+});
 
-## Homework
-Connect `CreateSchool.jsx` form submission to `createSchoolApi()` service function.
+export const getUsersApi = () => API.get('/users');
+export const createUserApi = (data) => API.post('/users', data);
 
-## Expected Result
-React form data successfully POSTs to Express backend API and persists in MongoDB database.
+export default API;
+```
 
-## Interview Questions
-1. *What is a CORS preflight request (OPTIONS verb) and why does the browser send it?*
-2. *What advantages does Axios offer over native browser `fetch()`?*
+### Step 2: Connect `CreateUser.jsx` to Axios Service (`frontend/src/pages/users/CreateUser.jsx`)
+```jsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createUserApi } from '../../services/api';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
-## Day Summary
-You have connected React frontend components to Express backend APIs using a centralized Axios service layer.
+const CreateUser = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await createUserApi({ name, email, password, address, phone });
+            navigate('/users');
+        } catch (err) {
+            alert(err.response?.data?.message || 'Create user failed');
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Input label="Name" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+            <Input label="Email" id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input label="Password" id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <Input label="Address" id="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+            <Input label="Phone" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
+            <Button type="submit">Submit Account</Button>
+        </form>
+    );
+};
+
+export default CreateUser;
+```
+
+## 🧪 API / Application Testing
+Submit form in React app. Open browser network tab (`F12` -> Network) and verify `POST http://localhost:8000/api/users` returns HTTP 201 Created.
+
+## 🔬 Practical Lab
+Connect product creation form (`CreateProduct.jsx`) to `createProductApi(data)`.
+
+## ✅ Expected Result
+React form posts data to backend server, inserts document into MongoDB, and redirects to `/users`.
+
+## ⚠️ Common Errors
+* `CORS Error`: Express missing `app.use(cors())` middleware.
+
+## 🔧 Troubleshooting
+Verify `CLIENT_URL` in `backend/.env` permits `http://localhost:5173`. Refer to [Installation Guide](./installation.md).
+
+## 📝 Practice Exercise
+Add loading state (`const [loading, setLoading] = useState(false)`) disabling submit button while HTTP request is in-flight.
+
+## 📦 Daily Deliverable
+Connected full-stack architecture posting React form inputs directly to MongoDB.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

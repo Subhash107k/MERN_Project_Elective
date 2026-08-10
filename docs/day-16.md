@@ -1,78 +1,99 @@
-# Day 16 — Advanced File Uploads & Cloud Storage
+# Day 16 — Advanced File Uploads & Cloud Storage [Advanced Extension / Planned Feature]
 
-## Learning Objectives
-* Understand `multipart/form-data` request payloads vs JSON payloads.
-* Configure `multer` middleware for handling single and multiple file uploads in Express.
-* Connect file uploads to Cloud storage services (Cloudinary / Cloud Buckets).
-* Store uploaded image URLs in Mongoose document schemas (`avatarUrl`, `productImage`).
+## 🎯 Learning Objectives
+* Understand `multipart/form-data` request payloads vs standard JSON payloads.
+* Configure `multer` middleware for handling file uploads in Express.
+* Validate uploaded file sizes and image MIME types (`image/jpeg`, `image/png`).
+* Store hosted image URLs in Mongoose document schemas (`imageUrl`, `avatarUrl`).
 
-## What We Learn
-Today we expand our MERN stack application with file and image uploading capabilities. We learn how `multer` parses incoming binary file streams, how to validate image MIME types (`image/jpeg`, `image/png`), and how to store file URLs in MongoDB documents.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Real-world web applications require user avatars, product image catalogs, and document attachments. Storing images directly in MongoDB as Base64 strings degrades performance, so storing hosted URLs is the industry standard.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **`multipart/form-data`:** HTTP encoding type allowing forms to submit text inputs alongside binary file uploads.
-* **Multer Middleware:** Express middleware for handling file uploads, providing `req.file` or `req.files`.
-* **Cloud Storage Services:** Remote asset storage services (Cloudinary, AWS S3, Google Cloud Storage) serving optimized image URLs over CDNs.
+## 📚 Prerequisites
+* Completion of [Day 15](./day-15.md).
 
-## Project Files
-* [`docs/day-16.md`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/docs/day-16.md)
-* [`backend/src/models/Product.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/models/Product.js)
+## 🧠 Theory
+> **Note:** This module represents an *Advanced Extension / Planned Feature*. The core codebase uses JSON data payloads. Today's guide demonstrates how to install `multer` and add binary file uploading to your MERN application.
 
-## Step-by-Step Explanation
-1. Install `multer` package: `npm install multer` inside `backend/`.
-2. Configure Multer storage engine with file type filtering (`image/jpeg`, `image/png`).
-3. Attach `upload.single('image')` middleware to file upload Express routes.
-4. Access `req.file` inside the controller and save file URL to database document.
+Binary file uploads require `multipart/form-data` encoding. `multer` is an Express middleware parsing file streams, writing binary data to disk or cloud storage (Cloudinary/AWS S3), and attaching `req.file` metadata to request handlers.
 
-## Code Examples
+## 🔑 Key Concepts
+* **`multipart/form-data`:** Encoding type allowing binary file stream transport alongside text fields.
+* **Multer Middleware:** Middleware populating `req.file` or `req.files`.
+* **Cloud Storage CDN:** Remote asset storage serving images over optimized CDNs.
+
+## 🏗️ Project Structure
+* [`../backend/package.json`](../backend/package.json)
+* [`../backend/src/models/Product.js`](../backend/src/models/Product.js)
+
+## ⚙️ Installation / Setup
+To add Multer file uploading to your project, install `multer` inside `backend/`:
+```bash
+cd backend
+npm install multer
+```
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Configure Multer Upload Middleware (`backend/src/middleware/uploadMiddleware.js`)
 ```javascript
-// Express Multer Middleware Configuration Example
 import multer from 'multer';
+import path from 'path';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'uploads/'),
     filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
 });
 
-export const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) cb(null, true);
-        else cb(new Error('Only image files are allowed'), false);
-    }
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) cb(null, true);
+    else cb(new Error('Only image files are allowed'), false);
+};
+
+export const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 }, fileFilter });
+```
+
+### Step 2: Attach Upload Middleware to Route (`backend/src/routes/productRoutes.js`)
+```javascript
+import { upload } from '../middleware/uploadMiddleware.js';
+
+router.post('/upload', upload.single('image'), (req, res) => {
+    res.status(200).json({ success: true, imageUrl: `/uploads/${req.file.filename}` });
 });
 ```
 
-## Practical Exercise
-1. Add an `imageUrl` string field to `Product.js` schema.
-2. Build a file input element in React: `<input type="file" onChange={(e) => setFile(e.target.files[0])} />`.
-3. Submit form data using `FormData` object:
-```javascript
-const formData = new FormData();
-formData.append('image', file);
-formData.append('name', name);
-await axios.post('/api/products', formData);
-```
+## 🧪 API / Application Testing
+In Postman, set request type to `POST`, select `Body` -> `form-data`, add key `image` of type `File`, pick a JPEG, and click Send.
 
-## Common Errors
-* **`req.file` is `undefined`**: Happens when the frontend `<input name="image">` field name does not match the key specified in `upload.single('image')`.
+## 🔬 Practical Lab
+Add an `imageUrl` String field to `productSchema.js` to store uploaded product images.
 
-## How to Debug
-Ensure the input form specifies `encType="multipart/form-data"` and field key names match exactly between frontend and backend.
+## ✅ Expected Result
+Uploading an image returns hosted relative URL path ready for database saving.
 
-## Homework
-Add an optional `avatar` image upload feature to the user registration workflow.
+## ⚠️ Common Errors
+* `req.file is undefined`: Frontend form field name (`image`) does not match Multer parameter string (`upload.single('image')`).
 
-## Expected Result
-React form uploads binary image files to Express backend, and the returned image URL is stored in MongoDB.
+## 🔧 Troubleshooting
+Ensure form specifies `encType="multipart/form-data"`. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## Interview Questions
-1. *Why should images and large files be stored in cloud storage buckets rather than directly inside MongoDB documents?*
-2. *What is the purpose of the `multer` middleware in Node.js applications?*
+## 📝 Practice Exercise
+Add avatar image uploading capability to user registration workflow.
 
-## Day Summary
-You have implemented file upload handling using Multer and configured image URL storage in Mongoose schemas.
+## 📦 Daily Deliverable
+Configured Multer middleware extension handling image file uploads.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed

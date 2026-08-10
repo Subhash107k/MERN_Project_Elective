@@ -1,64 +1,108 @@
-# Day 6 — MVC Architecture & Centralized Error Middleware
+# Day 06 — MVC Architecture & Centralized Error Middleware
 
-## Learning Objectives
-* Understand the Model-View-Controller (MVC) architectural design pattern.
-* Separate routing definitions from controller business logic.
-* Implement an `asyncHandler` wrapper to eliminate repetitive try-catch blocks.
-* Build a centralized Express error-handling middleware.
+## 🎯 Learning Objectives
+* Separate application concerns using Model-View-Controller (MVC) architecture.
+* Implement `asyncHandler` wrapper utility to eliminate repetitive `try...catch` blocks.
+* Build centralized Express 4-parameter error handling middleware (`errorHandler.js`).
+* Intercept invalid ObjectIds (`CastError`) and duplicate keys (`11000`).
 
-## What We Learn
-Today we refactor the backend into a clean MVC architecture. We decouple inline route logic into controller functions and create a global error middleware (`errorHandler.js`) to handle database errors, missing resources, and malformed JSON payloads uniformly.
+## ⏱️ Session Schedule
 
-## Why We Learn It
-Mixing database operations directly inside route files leads to code duplication and scattered error handling. MVC architecture separates concerns into logical, testable layers.
+| Activity | Duration |
+|---|---:|
+| Theory | 1 hour |
+| Guided Coding | 1 hour |
+| Practical Lab | 30 minutes |
+| **Total** | **2.5 hours** |
 
-## Important Concepts
-* **MVC Pattern:** Architecture separating Data Models, Client Views, and Business Controller Logic.
-* **Async Wrapper (`asyncHandler`):** Utility catching rejected Promises in async routes and forwarding them to `next(error)`.
-* **Centralized Error Middleware:** Express middleware function taking 4 parameters (`err, req, res, next`) to format all application errors.
+## 📚 Prerequisites
+* Completion of [Day 05](./day-05.md).
 
-## Project Files
-* [`backend/src/utils/asyncHandler.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/utils/asyncHandler.js)
-* [`backend/src/middleware/errorHandler.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/middleware/errorHandler.js)
-* [`backend/src/controllers/productController.js`](file:///d:/My_Projects/College_Project/Elective/MERN_Project_Elective/backend/src/controllers/productController.js)
+## 🧠 Theory
+The MVC pattern isolates business data (Model), interface views (View), and HTTP request processing (Controller). Centralized Express error middleware (`(err, req, res, next)`) intercepts unhandled promise rejections, formatting clean JSON errors.
 
-## Step-by-Step Explanation
-1. Create `utils/asyncHandler.js` to wrap controller functions.
-2. Refactor controller functions to throw standard errors (`throw new Error('User not found')`).
-3. Create `middleware/errorHandler.js` to catch errors and return `{ success: false, message }`.
-4. Mount `app.use(errorHandler)` as the final middleware in `server.js`.
+## 🔑 Key Concepts
+* **MVC Pattern:** Modular decoupling of routes, logic, and schemas.
+* **`asyncHandler`:** Higher-order function wrapping async controllers in `Promise.resolve().catch(next)`.
+* **Central Error Handler:** Mounted after all routes to process errors.
 
-## Code Examples
+## 🏗️ Project Structure
+* [`../backend/src/utils/asyncHandler.js`](../backend/src/utils/asyncHandler.js)
+* [`../backend/src/middleware/errorHandler.js`](../backend/src/middleware/errorHandler.js)
+* [`../backend/src/controllers/userController.js`](../backend/src/controllers/userController.js)
+
+## ⚙️ Installation / Setup
+No extra packages required.
+
+## 💻 Step-by-Step Coding
+
+### Step 1: Create `asyncHandler` Utility (`backend/src/utils/asyncHandler.js`)
 ```javascript
-// Centralized Error Middleware Example
-const errorHandler = (err, req, res, next) => {
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    res.status(statusCode).json({
-        success: false,
-        message: err.message || 'Internal Server Error'
-    });
+export const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
 };
 ```
 
-## Practical Exercise
-1. Send a GET request to an invalid ObjectId URL: `http://localhost:8000/api/users/invalid_id`.
-2. Verify that the server returns a clean `400 Bad Request` JSON response without crashing.
+### Step 2: Build Centralized Error Handler (`backend/src/middleware/errorHandler.js`)
+```javascript
+const errorHandler = (err, req, res, next) => {
+    let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+    let message = err.message || 'Internal Server Error';
 
-## Common Errors
-* **`UnhandledPromiseRejectionWarning`**: Occurs when an async error is thrown inside a route that is not wrapped in `asyncHandler` or `try-catch`.
+    if (err.name === 'CastError') {
+        statusCode = 400;
+        message = 'Invalid ObjectId format';
+    }
 
-## How to Debug
-Ensure all controller exports are wrapped with `asyncHandler(...)` and `errorHandler` is mounted AFTER all route definitions.
+    if (err.code === 11000) {
+        statusCode = 400;
+        message = 'Duplicate field value entered';
+    }
 
-## Homework
-Add custom handling in `errorHandler.js` for MongoDB duplicate key error code `11000`.
+    res.status(statusCode).json({ success: false, message });
+};
 
-## Expected Result
-All server errors yield predictable JSON responses with appropriate HTTP status codes.
+export default errorHandler;
+```
 
-## Interview Questions
-1. *Why must an Express error middleware function declare exactly 4 arguments (`err, req, res, next`)?*
-2. *What problem does the `asyncHandler` pattern solve in Express application architecture?*
+### Step 3: Wrap Controllers in `asyncHandler` (`backend/src/controllers/userController.js`)
+```javascript
+import User from '../models/User.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
-## Day Summary
-You have refactored your backend into an MVC architecture with centralized error handling middleware.
+export const getUsers = asyncHandler(async (req, res) => {
+    const users = await User.find().select('-password');
+    res.status(200).json({ success: true, data: users });
+});
+```
+
+## 🧪 API / Application Testing
+Send GET request to invalid ID `http://localhost:8000/api/users/invalid_id`.
+Verify error handler returns `400 Bad Request` with `"Invalid ObjectId format"`.
+
+## 🔬 Practical Lab
+Wrap all controller methods in `productController.js` and `schoolController.js` with `asyncHandler`.
+
+## ✅ Expected Result
+Unhandled errors automatically pass to `errorHandler` without server crashes.
+
+## ⚠️ Common Errors
+* Middleware ignored: Mounting `errorHandler` BEFORE route definitions instead of AFTER routes in `server.js`.
+
+## 🔧 Troubleshooting
+Ensure error middleware function signature declares 4 arguments `(err, req, res, next)`. Refer to [Troubleshooting Guide](./troubleshooting.md).
+
+## 📝 Practice Exercise
+Add custom handling for `ValidationError` in `errorHandler.js`.
+
+## 📦 Daily Deliverable
+Clean MVC architecture with `asyncHandler` and centralized error middleware.
+
+## ✅ Completion Checklist
+- [ ] Theory completed
+- [ ] Code implemented
+- [ ] Application runs successfully
+- [ ] Feature tested
+- [ ] Practical exercise completed
+- [ ] Errors resolved
+- [ ] Daily deliverable completed
