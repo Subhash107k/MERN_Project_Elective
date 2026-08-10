@@ -1,27 +1,15 @@
 # Day 12 — Password Security & Encryption with `bcryptjs`
 
-## 🎯 Learning Objectives
-* Understand security hazards of plaintext password storage.
-* Explain cryptographic salts, one-way hash functions, and key stretching.
-* Use `bcryptjs` pre-save Mongoose hooks (`pre('save')`) to encrypt passwords automatically.
-* Build custom `matchPassword()` instance methods on Mongoose model schemas.
+## 🎯 What Was Learned
+* Understood security hazards of storing plaintext passwords in databases.
+* Explained cryptographic salts, one-way hash functions, and key stretching.
+* Used `bcryptjs` pre-save Mongoose hooks (`pre('save')`) to encrypt passwords automatically.
+* Built custom `matchPassword()` instance methods on Mongoose model schemas.
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 11](./day-11.md).
-
-## 🧠 Theory
+## 🧠 Theory & Concepts
 Plaintext passwords must never be written to databases. `bcryptjs` generates unique random cryptographic salts (10 rounds) and executes one-way hashing routines, producing irreversible hash strings (`$2a$10$...`).
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **One-Way Hash:** Irreversible cryptographic function converting plaintext to hash output.
 * **Salt:** Random data concatenated with passwords to prevent dictionary rainbow table attacks.
 * **Mongoose `pre('save')` Hook:** Middleware automatically hashing modified passwords before MongoDB writes.
@@ -30,15 +18,16 @@ Plaintext passwords must never be written to databases. `bcryptjs` generates uni
 * [`../backend/src/schemas/userSchema.js`](../backend/src/schemas/userSchema.js)
 * [`../backend/src/models/User.js`](../backend/src/models/User.js)
 
-## ⚙️ Installation / Setup
-Inside `backend/`:
+## ⚙️ Setup & Configuration
+Installed `bcryptjs` dependency inside `backend/`:
 ```bash
+cd backend
 npm install bcryptjs
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Add Bcrypt Pre-Save Hook & Instance Method (`backend/src/schemas/userSchema.js`)
+### Step 1: Added Bcrypt Pre-Save Hook & Instance Method (`backend/src/schemas/userSchema.js`)
 ```javascript
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -65,32 +54,34 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 export default userSchema;
 ```
 
-## 🧪 API / Application Testing
-Create a user account. Inspect MongoDB documents via Compass to verify `password` field starts with `$2a$10$` instead of plaintext.
+## 🧪 Testing & Verification
+Created a user account. Inspected MongoDB documents via Compass to verify `password` field started with `$2a$10$` instead of plaintext.
 
-## 🔬 Practical Lab
-Test `user.matchPassword('wrongpass')` returning `false` and `user.matchPassword('password123')` returning `true`.
+## 🔬 Practical Work
+Tested `user.matchPassword('wrongpass')` returning `false` and `user.matchPassword('password123')` returning `true`.
 
-## ✅ Expected Result
-User passwords stored in MongoDB are irreversibly encrypted hash strings.
+## ✅ What Was Completed
+* Configured `bcryptjs` password salt & hashing pre-save hook.
+* Implemented `matchPassword()` verification instance method.
+* Ensured passwords are excluded from default queries via `select: false`.
 
-## ⚠️ Common Errors
-* Password re-hashed on profile name edit: Missing `if (!this.isModified('password')) return next();` check.
+## ⚠️ Problems Encountered
+* Password re-hashed on profile name edit: Occurred when missing `if (!this.isModified('password')) return next();` check.
 
-## 🔧 Troubleshooting
-Ensure password comparison queries explicitly select password field (`User.findOne({ email }).select('+password')`). Refer to [Security Report](./security.md).
+## 🔧 Troubleshooting & Fixes
+Ensured password comparison queries explicitly selected password field (`User.findOne({ email }).select('+password')`). Refer to [Security Report](./security.md).
 
-## 📝 Practice Exercise
-Verify that `select: false` prevents password strings from leaking in `GET /api/users` responses.
+## 📝 Additional Practice
+Verified that `select: false` prevents password strings from leaking in `GET /api/users` responses.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Encrypted user password pipeline using `bcryptjs` and Mongoose pre-save hooks.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Password encryption verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

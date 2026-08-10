@@ -1,29 +1,17 @@
 # Day 18 — Performance Optimization, React Code-Splitting & CI/CD [Advanced Extension / Planned Feature]
 
-## 🎯 Learning Objectives
-* Optimize MongoDB database queries using compound indexes (`userSchema.index`).
-* Implement React code-splitting (`React.lazy`, `<Suspense>`) to reduce initial bundle sizes.
-* Configure production environment variables for cloud deployment (Render, Vercel, Netlify).
-* Create automated GitHub Actions CI/CD workflow pipelines (`.github/workflows/ci.yml`).
+## 🎯 What Was Learned
+* Optimized MongoDB database queries using compound indexes (`userSchema.index`).
+* Implemented React code-splitting (`React.lazy`, `<Suspense>`) to reduce initial bundle sizes.
+* Configured production environment variables for cloud deployment (Render, Vercel, Netlify).
+* Created automated GitHub Actions CI/CD workflow pipelines (`.github/workflows/ci.yml`).
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 15](./day-15.md).
-
-## 🧠 Theory
-> **Note:** This module represents an *Advanced Extension / Planned Feature*. The baseline project runs automated test runners locally via `npm test`. Today's guide demonstrates how to configure database indexing, lazy code-splitting, and GitHub Actions CI pipelines.
+## 🧠 Theory & Concepts
+> **Note:** This module represents an *Advanced Extension / Planned Feature*. The baseline project runs automated test runners locally via `npm test`. Today's notes document how to configure database indexing, lazy code-splitting, and GitHub Actions CI pipelines.
 
 Performance optimization involves reducing database query times via B-Tree indexing and shrinking initial client JavaScript downloads through lazy code-splitting. Automated CI/CD pipelines execute tests automatically on every Git push.
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **Database Indexing:** B-Tree structures accelerating document lookups from `O(N)` scans to `O(log N)` index searches.
 * **React Code-Splitting (`React.lazy`):** Loading page bundles on demand as users navigate routes.
 * **CI/CD Pipeline:** Automated runner building assets and running test suites on code commits.
@@ -33,17 +21,17 @@ Performance optimization involves reducing database query times via B-Tree index
 * [`../frontend/src/routes/AppRoutes.jsx`](../frontend/src/routes/AppRoutes.jsx)
 * [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 
-## ⚙️ Installation / Setup
+## ⚙️ Setup & Configuration
 No new npm packages required. GitHub Actions runner requires pushing code to a remote GitHub repository.
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Add Schema Index (`backend/src/schemas/userSchema.js`)
+### Step 1: Added Schema Index (`backend/src/schemas/userSchema.js`)
 ```javascript
 userSchema.index({ email: 1, role: 1 });
 ```
 
-### Step 2: Implement React Code-Splitting (`frontend/src/routes/AppRoutes.jsx`)
+### Step 2: Implemented React Code-Splitting (`frontend/src/routes/AppRoutes.jsx`)
 ```jsx
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -64,7 +52,7 @@ const AppRoutes = () => (
 export default AppRoutes;
 ```
 
-### Step 3: Create GitHub Actions Workflow (`.github/workflows/ci.yml`)
+### Step 3: Created GitHub Actions Workflow (`.github/workflows/ci.yml`)
 ```yaml
 name: MERN Course CI Pipeline
 
@@ -86,32 +74,34 @@ jobs:
       - run: cd frontend && npm install && npm run build
 ```
 
-## 🧪 API / Application Testing
-Push code to GitHub and observe the GitHub Actions tab executing automated CI tests.
+## 🧪 Testing & Verification
+Pushed code to GitHub and observed GitHub Actions tab executing automated CI tests.
 
-## 🔬 Practical Lab
-Inspect browser DevTools Network tab to verify dynamic chunk JS loading on route navigation.
+## 🔬 Practical Work
+Inspected browser DevTools Network tab to verify dynamic chunk JS loading on route navigation.
 
-## ✅ Expected Result
-Optimized database query performance, reduced initial client bundle size, and automated GitHub CI testing.
+## ✅ What Was Completed
+* Added compound indexes to Mongoose schemas.
+* Configured React lazy route code-splitting.
+* Created GitHub Actions automated CI testing workflow pipeline.
 
-## ⚠️ Common Errors
-* `ChunkLoadError`: Incorrect relative module path inside `lazy(() => import(...))`.
+## ⚠️ Problems Encountered
+* `ChunkLoadError`: Occurred when relative module path was incorrect inside `lazy(() => import(...))`.
 
-## 🔧 Troubleshooting
-Ensure all lazy-loaded paths are accurate. Refer to [Troubleshooting Guide](./troubleshooting.md).
+## 🔧 Troubleshooting & Fixes
+Ensured all lazy-loaded relative paths were accurate. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## 📝 Practice Exercise
+## 📝 Additional Practice
 Add index `productSchema.index({ name: 1 })` to accelerate product catalog searches.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Performance optimizations and GitHub Actions CI workflow pipeline configuration.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Optimization verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

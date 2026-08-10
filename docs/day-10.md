@@ -1,28 +1,15 @@
 # Day 10 — Full-Stack Integration with Axios API Layer
 
-## 🎯 Learning Objectives
-* Configure an Axios instance with base URL settings (`VITE_API_URL`).
-* Understand CORS (Cross-Origin Resource Sharing) between frontend (5173) and backend (8000).
-* Send asynchronous HTTP POST requests from React forms to Express API routes.
-* Handle API success and error banners gracefully in the UI.
+## 🎯 What Was Learned
+* Configured an Axios client instance with base URL settings (`VITE_API_URL`).
+* Understood CORS (Cross-Origin Resource Sharing) between frontend (5173) and backend (8000).
+* Sent asynchronous HTTP POST requests from React forms to Express API routes.
+* Handled API success and error banners gracefully in the UI.
 
-## ⏱️ Session Schedule
+## 🧠 Theory & Concepts
+Axios is a Promise-based HTTP client. Configuring a centralized Axios service layer (`services/api.js`) centralizes base API URLs and request/response headers across the entire React frontend application.
 
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 09](./day-09.md).
-* Backend API server running on `http://localhost:8000`.
-
-## 🧠 Theory
-Axios is a Promise-based HTTP client. Configuring a centralized Axios service layer (`services/api.js`) centralizes base API URLs and request/response interceptors across the entire React frontend application.
-
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **Axios Instance (`axios.create()`):** Pre-configured HTTP client instance.
 * **Base URL (`import.meta.env.VITE_API_URL`):** Dynamically bound API path prefix (`http://localhost:8000/api`).
 * **CORS:** Backend security header allowing requests from `http://localhost:5173`.
@@ -31,15 +18,16 @@ Axios is a Promise-based HTTP client. Configuring a centralized Axios service la
 * [`../frontend/src/services/api.js`](../frontend/src/services/api.js)
 * [`../frontend/.env`](../frontend/.env)
 
-## ⚙️ Installation / Setup
-Inside `frontend/`:
+## ⚙️ Setup & Configuration
+Installed Axios dependency inside `frontend/`:
 ```bash
+cd frontend
 npm install axios
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create Centralized Axios Client (`frontend/src/services/api.js`)
+### Step 1: Created Centralized Axios Client (`frontend/src/services/api.js`)
 ```javascript
 import axios from 'axios';
 
@@ -53,7 +41,7 @@ export const createUserApi = (data) => API.post('/users', data);
 export default API;
 ```
 
-### Step 2: Connect `CreateUser.jsx` to Axios Service (`frontend/src/pages/users/CreateUser.jsx`)
+### Step 2: Connected `CreateUser.jsx` to Axios Service (`frontend/src/pages/users/CreateUser.jsx`)
 ```jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -94,32 +82,34 @@ const CreateUser = () => {
 export default CreateUser;
 ```
 
-## 🧪 API / Application Testing
-Submit form in React app. Open browser network tab (`F12` -> Network) and verify `POST http://localhost:8000/api/users` returns HTTP 201 Created.
+## 🧪 Testing & Verification
+Submitted form in React app. Opened browser Network tab (`F12` -> Network) and verified `POST http://localhost:8000/api/users` returned HTTP 201 Created.
 
-## 🔬 Practical Lab
-Connect product creation form (`CreateProduct.jsx`) to `createProductApi(data)`.
+## 🔬 Practical Work
+Connected product creation form (`CreateProduct.jsx`) to `createProductApi(data)`.
 
-## ✅ Expected Result
-React form posts data to backend server, inserts document into MongoDB, and redirects to `/users`.
+## ✅ What Was Completed
+* Built centralized Axios service client.
+* Handled CORS policies between ports 5173 and 8000.
+* Posted React form inputs directly into MongoDB.
 
-## ⚠️ Common Errors
-* `CORS Error`: Express missing `app.use(cors())` middleware.
+## ⚠️ Problems Encountered
+* `CORS Error`: Occurred when Express backend was missing `app.use(cors())` middleware.
 
-## 🔧 Troubleshooting
-Verify `CLIENT_URL` in `backend/.env` permits `http://localhost:5173`. Refer to [Installation Guide](./installation.md).
+## 🔧 Troubleshooting & Fixes
+Verified `CLIENT_URL` in `backend/.env` permitted `http://localhost:5173`. Refer to [Installation Guide](./installation.md).
 
-## 📝 Practice Exercise
-Add loading state (`const [loading, setLoading] = useState(false)`) disabling submit button while HTTP request is in-flight.
+## 📝 Additional Practice
+Added loading state (`const [loading, setLoading] = useState(false)`) disabling submit button while HTTP request is in-flight.
 
-## 📦 Daily Deliverable
-Connected full-stack architecture posting React form inputs directly to MongoDB.
+## 📦 Day Deliverable
+Connected full-stack architecture posting React form inputs directly to MongoDB over HTTP.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] API integration verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

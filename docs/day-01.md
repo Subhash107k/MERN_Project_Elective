@@ -1,46 +1,33 @@
 # Day 01 — HTML5 Fundamentals, Web Architecture & Node.js Setup
 
-## 🎯 Learning Objectives
-* Explain client-server web architecture (Browser Client ↔ HTTP ↔ Web Server).
-* Write clean HTML5 semantic web pages using tags like `<main>`, `<nav>`, and `<form>`.
-* Build interactive HTML forms with attributes (`required`, `placeholder`, `type`).
-* Set up Node.js runtime environment and write server-side ES Module JavaScript.
+## 🎯 What Was Learned
+* Understood how client-server web architecture operates (Browser Client ↔ HTTP ↔ Web Server).
+* Built structured HTML5 web pages using semantic tags (`<main>`, `<nav>`, `<form>`).
+* Constructed user input forms with validation attributes (`required`, `placeholder`, `type`).
+* Configured Node.js runtime environment and wrote server-side ES Module JavaScript code.
 
-## ⏱️ Session Schedule
+## 🧠 Theory & Concepts
+Web applications rely on a Client-Server model. The client browser renders user interfaces and captures input via HTML forms. HTTP requests transport data across network sockets to a Node.js backend server, which executes business logic and returns structured responses.
 
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Text editor (VS Code) installed.
-* Web browser (Chrome/Edge/Firefox).
-
-## 🧠 Theory
-Web applications operate on a Client-Server model. The client (web browser) renders HTML/CSS/JS and captures user input through forms. HTTP requests carry this data across network sockets to backend servers (Node.js runtime), which process business logic and return HTTP responses.
-
-## 🔑 Key Concepts
-* **HTML5 Semantic Tags:** `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>` structuring web pages for SEO and accessibility.
-* **HTML Forms:** `<form>` container holding `<input>` and `<button>` elements.
-* **Node.js Runtime:** V8 JavaScript engine executing JavaScript outside web browsers.
-* **ES Modules:** Standard `import`/`export` syntax enabled via `"type": "module"` in `package.json`.
+## 🔑 Key Takeaways
+* **HTML5 Semantic Elements:** Tags like `<header>`, `<nav>`, `<main>`, `<section>`, and `<footer>` structure documents for browser rendering, SEO, and accessibility.
+* **HTML Forms:** Container elements holding `<input>` and `<button>` elements that capture user data.
+* **Node.js Runtime:** Chrome V8 JavaScript engine executing server-side code outside web browsers.
+* **ES Modules:** Standard JavaScript `import`/`export` syntax enabled via `"type": "module"` in `package.json`.
 
 ## 🏗️ Project Structure
 * [`../backend/package.json`](../backend/package.json)
 
-## ⚙️ Installation / Setup
-Check Node version and install backend dependencies:
+## ⚙️ Setup & Configuration
+Verified Node version and installed initial backend dependencies:
 ```bash
 cd backend
 npm install
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create Practice HTML Form (`index.html`)
+### Step 1: Constructed HTML Registration Form (`index.html`)
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -63,48 +50,50 @@ npm install
 </html>
 ```
 
-### Step 2: Write Helper ESM Script (`backend/src/greetings.js`)
+### Step 2: Wrote Modular ES Module Helper (`backend/src/greetings.js`)
 ```javascript
 export const formatWelcomeMessage = (name) => {
-    return `Hello ${name}, welcome to Day 1 of the MERN Course!`;
+    return `Hello ${name}, welcome to Day 1 of MERN development!`;
 };
 ```
 
-### Step 3: Run Node Test Script (`backend/src/testDay1.js`)
+### Step 3: Implemented Node Execution Script (`backend/src/testDay1.js`)
 ```javascript
 import { formatWelcomeMessage } from './greetings.js';
 console.log(formatWelcomeMessage('Student'));
 ```
 
-## 🧪 API / Application Testing
-Run the script using Node:
+## 🧪 Testing & Verification
+Executed the test script using Node.js:
 ```bash
 node src/testDay1.js
 ```
 
-## 🔬 Practical Lab
-Build a product entry HTML form containing Product Name, Price, and Description fields.
+## 🔬 Practical Work
+Constructed a product registration HTML form containing Product Name, Price, and Description fields.
 
-## ✅ Expected Result
-Terminal displays `Hello Student, welcome to Day 1 of the MERN Course!`.
+## ✅ What Was Completed
+* Verified Node.js environment installation.
+* Created structured HTML5 form layout.
+* Executed modular ES Module JavaScript script on Node.js.
 
-## ⚠️ Common Errors
-* `SyntaxError: Cannot use import statement outside a module`: Missing `"type": "module"` in `package.json`.
+## ⚠️ Problems Encountered
+* `SyntaxError: Cannot use import statement outside a module`: Occurred when `package.json` was missing `"type": "module"`.
 
-## 🔧 Troubleshooting
-Ensure relative import paths include the `.js` extension (e.g. `./greetings.js`). Refer to [Troubleshooting Guide](./troubleshooting.md).
+## 🔧 Troubleshooting & Fixes
+Added `"type": "module"` to `backend/package.json` and verified relative imports included the `.js` extension. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## 📝 Practice Exercise
-Add a dropdown `<select>` menu allowing users to pick a course category.
+## 📝 Additional Practice
+Added a dropdown `<select>` menu allowing users to choose a registration role.
 
-## 📦 Daily Deliverable
-Functional HTML form markup and executable ESM Node script.
+## 📦 Day Deliverable
+Functional HTML5 input form and executable ES Module Node.js script.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Script executed successfully
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

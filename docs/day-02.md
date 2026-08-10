@@ -1,54 +1,41 @@
 # Day 02 — Express Server Setup & HTTP Basics
 
-## 🎯 Learning Objectives
-* Understand Express.js web framework fundamentals.
-* Configure an Express application listening on custom network ports (Port 8000).
-* Handle HTTP requests (`req`) and format JSON responses (`res`).
-* Apply global Express middleware (`cors()`, `express.json()`).
+## 🎯 What Was Learned
+* Understood Express.js framework architecture for Node.js backend development.
+* Configured an Express HTTP server listening on custom network ports (Port 8000).
+* Processed HTTP requests (`req`) and returned structured JSON responses (`res`).
+* Applied global Express middleware (`cors()`, `express.json()`).
 
-## ⏱️ Session Schedule
+## 🧠 Theory & Concepts
+Express.js is an unopinionated web framework for Node.js that abstracts raw HTTP server streams. Every HTTP request-response transaction receives an incoming request object (`req`) containing headers and body payloads, and an outgoing response object (`res`) transmitting HTTP status codes and data.
 
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 01](./day-01.md).
-* Node.js v18+ installed.
-
-## 🧠 Theory
-Express.js is a unopinionated web framework for Node.js. It simplifies HTTP server creation, request routing, and middleware processing. Every HTTP transaction consists of an incoming `IncomingMessage` (`req`) and outgoing `ServerResponse` (`res`).
-
-## 🔑 Key Concepts
-* **Express App (`express()`):** Core application instance configuring routes and middleware.
-* **Port Listener (`app.listen()`):** Binds the server to a TCP port to accept requests.
-* **Middleware (`app.use()`):** Functions executing in sequence during request processing.
+## 🔑 Key Takeaways
+* **Express Application (`express()`):** Core application instance configuring routes and middleware.
+* **Port Listener (`app.listen()`):** Binds the Express app to a TCP port to accept incoming connections.
+* **Middleware (`app.use()`):** Functions executing sequentially during request processing.
 * **HTTP Status Codes:** `200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`, `500 Internal Server Error`.
 
 ## 🏗️ Project Structure
 * [`../backend/src/server.js`](../backend/src/server.js)
 * [`../backend/.env.example`](../backend/.env.example)
 
-## ⚙️ Installation / Setup
-Inside `backend/`, install packages:
+## ⚙️ Setup & Configuration
+Installed Express, CORS, and Dotenv dependencies inside `backend/`:
 ```bash
 cd backend
 npm install express cors dotenv
 npm install --save-dev nodemon
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create `.env` Environment Configuration
+### Step 1: Configured Environment Variables (`backend/.env`)
 ```env
 PORT=8000
 NODE_ENV=development
 ```
 
-### Step 2: Configure Express Entry Point (`backend/src/server.js`)
+### Step 2: Implemented Express Entry Point (`backend/src/server.js`)
 ```javascript
 import express from 'express';
 import cors from 'cors';
@@ -75,36 +62,38 @@ app.listen(PORT, () => {
 });
 ```
 
-## 🧪 API / Application Testing
-Start dev server with nodemon:
+## 🧪 Testing & Verification
+Started server using Nodemon development script:
 ```bash
 npm run dev
 ```
-Open `http://localhost:8000/` in browser or Postman.
+Sent a GET request to `http://localhost:8000/` using a browser and Postman.
 
-## 🔬 Practical Lab
-Add a GET route `/api/health` returning uptime seconds (`process.uptime()`).
+## 🔬 Practical Work
+Implemented an additional GET route `/api/health` returning application uptime (`process.uptime()`).
 
-## ✅ Expected Result
-Browser displays JSON response: `{"success":true,"message":"18-Day / 45-Hour MERN Stack Course REST API is running cleanly","version":"1.0.0"}`.
+## ✅ What Was Completed
+* Initialized Express backend application.
+* Configured JSON body parsing and CORS middleware.
+* Tested root GET endpoint response.
 
-## ⚠️ Common Errors
-* `EADDRINUSE :::8000`: Port 8000 is occupied by another process.
+## ⚠️ Problems Encountered
+* `EADDRINUSE :::8000`: Occurred when port 8000 was already in use by a background process.
 
-## 🔧 Troubleshooting
-Terminate background Node process using Task Manager or change `PORT=8001` in `.env`. Refer to [Troubleshooting Guide](./troubleshooting.md).
+## 🔧 Troubleshooting & Fixes
+Terminated background process or updated `PORT=8001` in `.env`. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## 📝 Practice Exercise
-Add custom headers using `res.setHeader('X-Powered-By', 'MERN Course App')`.
+## 📝 Additional Practice
+Set custom response headers using `res.setHeader('X-Powered-By', 'MERN App')`.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Functional Express HTTP server responding to GET requests.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Server executed successfully
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

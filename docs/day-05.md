@@ -1,29 +1,17 @@
 # Day 05 — REST API & Full CRUD Implementation
 
-## 🎯 Learning Objectives
-* Build full RESTful Create, Read, Update, Delete (CRUD) endpoints.
-* Execute Mongoose query methods (`create`, `find`, `findById`, `findByIdAndUpdate`, `findByIdAndDelete`).
-* Return semantic HTTP status codes (`200 OK`, `201 Created`, `404 Not Found`).
-* Send standardized JSON response payloads using response helpers.
+## 🎯 What Was Learned
+* Built full RESTful Create, Read, Update, Delete (CRUD) database endpoints.
+* Executed Mongoose query methods (`create`, `find`, `findById`, `findByIdAndUpdate`, `findByIdAndDelete`).
+* Returned semantic HTTP status codes (`200 OK`, `201 Created`, `404 Not Found`).
+* Formatted standardized JSON response payloads using response helpers.
 
-## ⏱️ Session Schedule
+## 🧠 Theory & Concepts
+REST (Representational State Transfer) is an architectural pattern for web APIs. HTTP methods map directly to database operations: `POST` (Create), `GET` (Read), `PATCH`/`PUT` (Update), and `DELETE` (Delete).
 
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 04](./day-04.md).
-
-## 🧠 Theory
-REST (Representational State Transfer) is an architectural style for HTTP APIs. Standard HTTP methods map to CRUD database operations: `POST` (Create), `GET` (Read), `PATCH`/`PUT` (Update), and `DELETE` (Delete).
-
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **`User.create(data)`:** Inserts new document into collection.
-* **`User.find()`:** Queries documents matching filters.
+* **`User.find()`:** Queries documents matching filter conditions.
 * **`User.findByIdAndUpdate(id, data, { new: true })`:** Updates document fields and returns updated object.
 * **`User.findByIdAndDelete(id)`:** Removes document from database.
 
@@ -31,12 +19,12 @@ REST (Representational State Transfer) is an architectural style for HTTP APIs. 
 * [`../backend/src/controllers/userController.js`](../backend/src/controllers/userController.js)
 * [`../backend/src/routes/userRoutes.js`](../backend/src/routes/userRoutes.js)
 
-## ⚙️ Installation / Setup
-No new packages required.
+## ⚙️ Setup & Configuration
+No additional npm packages required.
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Implement User CRUD Controller (`backend/src/controllers/userController.js`)
+### Step 1: Constructed User CRUD Controller (`backend/src/controllers/userController.js`)
 ```javascript
 import User from '../models/User.js';
 
@@ -77,32 +65,37 @@ export const deleteUser = async (req, res) => {
 };
 ```
 
-## 🧪 API / Application Testing
-Test `POST /api/users` and `GET /api/users` in Postman or Thunder Client. Refer to [API Testing Guide](./api-testing.md).
+## 🧪 Testing & Verification
+Tested endpoints in Postman:
+1. `POST /api/users` -> Copy returned `_id`.
+2. `GET /api/users` -> Verify list array.
+3. `PATCH /api/users/<_id>` -> Send updated address.
+4. `DELETE /api/users/<_id>` -> Verify deletion response.
 
-## 🔬 Practical Lab
-Implement full CRUD controllers for `Product` model in `productController.js`.
+## 🔬 Practical Work
+Constructed CRUD controller functions in `productController.js` and `schoolController.js`.
 
-## ✅ Expected Result
-`POST /api/users` creates document in MongoDB and returns HTTP 201.
+## ✅ What Was Completed
+* Implemented CRUD operations operating against MongoDB.
+* Returned appropriate HTTP status codes for each request.
 
-## ⚠️ Common Errors
-* `findByIdAndUpdate` returns old document: Forgetting `{ new: true }` option.
+## ⚠️ Problems Encountered
+* `findByIdAndUpdate` returned original document before edit: Caused by omitting `{ new: true }` option.
 
-## 🔧 Troubleshooting
-Verify MongoDB service is active. Refer to [Troubleshooting Guide](./troubleshooting.md).
+## 🔧 Troubleshooting & Fixes
+Added `{ new: true }` parameter to `findByIdAndUpdate`. Refer to [API Testing Guide](./api-testing.md).
 
-## 📝 Practice Exercise
-Add validation checking if email already exists before `User.create()`.
+## 📝 Additional Practice
+Implemented check verifying if email already exists before executing `User.create()`.
 
-## 📦 Daily Deliverable
-Functional RESTful CRUD API endpoints for users and products.
+## 📦 Day Deliverable
+Functional RESTful CRUD API endpoints for users, products, and schools.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Server executed successfully
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

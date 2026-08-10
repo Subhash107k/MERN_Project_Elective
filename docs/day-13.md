@@ -1,27 +1,15 @@
 # Day 13 — JWT Authentication & Protected Routes
 
-## 🎯 Learning Objectives
-* Understand stateless JSON Web Token (JWT) authorization architecture.
-* Generate signed JWT access tokens (`jwt.sign`) upon user login/registration.
-* Build Express `protect` middleware verifying `Authorization: Bearer <token>` headers.
-* Build global React `AuthContext` managing authentication state and `localStorage` persistence.
+## 🎯 What Was Learned
+* Understood stateless JSON Web Token (JWT) authorization architecture.
+* Generated signed JWT access tokens (`jwt.sign`) upon user login/registration.
+* Built Express `protect` middleware verifying `Authorization: Bearer <token>` headers.
+* Built global React `AuthContext` managing authentication state and `localStorage` persistence.
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 12](./day-12.md).
-
-## 🧠 Theory
+## 🧠 Theory & Concepts
 JWT is a stateless token format containing Header, Payload (user ID), and Signature. Servers verify signatures using a secret key (`JWT_SECRET`) without needing server session database lookups.
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **JWT Token (`jwt.sign()`):** Cryptographically signed access token.
 * **Bearer Token:** Standard HTTP header (`Authorization: Bearer <token>`).
 * **`protect` Middleware:** Intercepts requests, decodes tokens, and attaches `req.user`.
@@ -31,15 +19,16 @@ JWT is a stateless token format containing Header, Payload (user ID), and Signat
 * [`../backend/src/controllers/authController.js`](../backend/src/controllers/authController.js)
 * [`../frontend/src/context/AuthContext.jsx`](../frontend/src/context/AuthContext.jsx)
 
-## ⚙️ Installation / Setup
-Inside `backend/`:
+## ⚙️ Setup & Configuration
+Installed `jsonwebtoken` dependency inside `backend/`:
 ```bash
+cd backend
 npm install jsonwebtoken
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create `protect` Bearer Middleware (`backend/src/middleware/authMiddleware.js`)
+### Step 1: Created `protect` Bearer Middleware (`backend/src/middleware/authMiddleware.js`)
 ```javascript
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
@@ -78,33 +67,35 @@ export const loginUser = asyncHandler(async (req, res) => {
 });
 ```
 
-## 🧪 API / Application Testing
-1. Send `POST /api/auth/login` in Postman. Copy token string.
-2. Send `GET /api/auth/me` with header `Authorization: Bearer <token>`. Verify HTTP 200 response.
+## 🧪 Testing & Verification
+1. Sent `POST /api/auth/login` in Postman. Copied token string.
+2. Sent `GET /api/auth/me` with header `Authorization: Bearer <token>`. Verified HTTP 200 response.
 
-## 🔬 Practical Lab
-Protect `DELETE /api/users/:id` route using `protect` middleware in `userRoutes.js`.
+## 🔬 Practical Work
+Protected `DELETE /api/users/:id` route using `protect` middleware in `userRoutes.js`.
 
-## ✅ Expected Result
-Login returns signed JWT token, enabling access to protected endpoints.
+## ✅ What Was Completed
+* Built JWT token generation and verification pipeline.
+* Protected API endpoints using `protect` bearer middleware.
+* Created global React `AuthContext` managing session persistence.
 
-## ⚠️ Common Errors
-* `JsonWebTokenError: invalid signature`: `JWT_SECRET` mismatch between signing and verification.
+## ⚠️ Problems Encountered
+* `JsonWebTokenError: invalid signature`: Occurred when `JWT_SECRET` mismatched between signing and verification.
 
-## 🔧 Troubleshooting
-Verify `JWT_SECRET` exists in `backend/.env`. Refer to [API Testing Guide](./api-testing.md).
+## 🔧 Troubleshooting & Fixes
+Verified `JWT_SECRET` existed in `backend/.env`. Refer to [API Testing Guide](./api-testing.md).
 
-## 📝 Practice Exercise
-Implement `logout()` method in `AuthContext.jsx` clearing token from `localStorage`.
+## 📝 Additional Practice
+Implemented `logout()` method in `AuthContext.jsx` clearing token from `localStorage`.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Stateless JWT authentication pipeline and protected API routes.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Authentication verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

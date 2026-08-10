@@ -1,4 +1,4 @@
-# 🎓 18-Day / 45-Hour MERN Stack Development Course Edition
+# 🎓 MERN Project Elective — 18-Day Class & Project Documentation
 
 [![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue.svg)](https://mongodb.com)
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org)
@@ -9,7 +9,7 @@
 [![Tests Passing](https://img.shields.io/badge/Tests-100%25_Passing-brightgreen.svg)](#-running-automated-test-suites)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Welcome to the **18-Day / 45-Hour MERN Stack Development Course Edition**! This repository is a completely refactored, production-ready, beginner-friendly full-stack application designed for progressive learning (18 days × 2.5 hours per day = 45 total hours).
+This repository documents the concepts, technologies, implementation work, practical exercises, API testing, database modeling, and application progress completed during 18 days of MERN stack class and project development (approximate total work duration: 45 hours).
 
 ---
 
@@ -18,7 +18,7 @@ Welcome to the **18-Day / 45-Hour MERN Stack Development Course Edition**! This 
 * [🏗️ System & Data Architecture](#️-system--data-architecture)
 * [📁 Repository Directory Hierarchy](#-repository-directory-hierarchy)
 * [🚀 Quick Start & Installation Guide](#-quick-start--installation-guide)
-* [🗓️ 18-Day / 45-Hour Master Curriculum Schedule](#️-18-day--45-hour-master-curriculum-schedule)
+* [🗓️ 18-Day Class & Project Progression](#️-18-day-class--project-progression)
 * [📡 REST API & Postman Testing Reference](#-rest-api--postman-testing-reference)
 * [🔒 Security & Validation Controls](#-security--validation-controls)
 * [🧪 Running Automated Test Suites](#-running-automated-test-suites)
@@ -77,7 +77,7 @@ Welcome to the **18-Day / 45-Hour MERN Stack Development Course Edition**! This 
 ```text
 MERN_Project_Elective/
 ├── README.md                           # Master documentation
-├── COURSE_PLAN.md                      # 18-Day / 45-Hour curriculum schedule
+├── COURSE_PLAN.md                      # 18-Day class & project schedule
 ├── PROJECT_REPORT.md                   # 20-section comprehensive engineering report
 ├── ERROR_REPORT.md                     # Error audit log & refactoring documentation
 ├── API_DOCUMENTATION.md                # Full REST API endpoint specification
@@ -128,7 +128,7 @@ MERN_Project_Elective/
 │       ├── routes/AppRoutes.jsx        # React Router v6 navigation table
 │       └── styles/index.css            # Vanilla CSS design system
 │
-├── docs/                               # 18-Day Daily Course Material & Guides
+├── docs/                               # 18-Day Daily Class Material & Guides
 │   ├── installation.md                 # Complete installation & setup guide
 │   ├── architecture.md                 # System architecture & data flow guide
 │   ├── database.md                     # Database schema & ERD guide
@@ -191,31 +191,28 @@ For complete installation steps, refer to the [Installation Guide](./docs/instal
 
 ---
 
-## 🗓️ 18-Day / 45-Hour Master Curriculum Schedule
+## 🗓️ 18-Day Class & Project Progression
 
-Each day is structured for **2.5 hours per day** (1.0h Theory, 1.0h Live Coding, 0.5h Practical Lab):
-
-| Day | Total Hours | Core Topic | Practical Deliverable | Daily Guide File |
-| :---: | :---: | :--- | :--- | :--- |
-| **1** | 2.5h | HTML5 & Node Setup | HTML5 forms & Node.js ESM scripts | [`docs/day-01.md`](./docs/day-01.md) |
-| **2** | 2.5h | Express HTTP Server | Express server listening on port 8000 | [`docs/day-02.md`](./docs/day-02.md) |
-| **3** | 2.5h | Express Routing | Dynamic parameter & query extraction | [`docs/day-03.md`](./docs/day-03.md) |
-| **4** | 2.5h | MongoDB & Mongoose | Mongoose schemas & MongoDB connection | [`docs/day-04.md`](./docs/day-04.md) |
-| **5** | 2.5h | REST API & CRUD | Full User RESTful CRUD API endpoints | [`docs/day-05.md`](./docs/day-05.md) |
-| **6** | 2.5h | MVC Architecture | Centralized Express error middleware | [`docs/day-06.md`](./docs/day-06.md) |
-| **7** | 2.5h | React & Vite Setup | Interactive Vite + React SPA | [`docs/day-07.md`](./docs/day-07.md) |
-| **8** | 2.5h | React Router v6 | Multi-page client SPA navigation | [`docs/day-08.md`](./docs/day-08.md) |
-| **9** | 2.5h | Controlled React Forms | Validated controlled form state | [`docs/day-09.md`](./docs/day-09.md) |
-| **10** | 2.5h | Axios API Integration | React form data saved to MongoDB | [`docs/day-10.md`](./docs/day-10.md) |
-| **11** | 2.5h | List Rendering | Database list tables with delete triggers | [`docs/day-11.md`](./docs/day-11.md) |
-| **12** | 2.5h | Password Security | `bcryptjs` encrypted password storage | [`docs/day-12.md`](./docs/day-12.md) |
-| **13** | 2.5h | JWT Authentication | Protected API routes & AuthContext | [`docs/day-13.md`](./docs/day-13.md) |
-| **14** | 2.5h | Validation & Testing | Automated test suite execution | [`docs/day-14.md`](./docs/day-14.md) |
-| **15** | 2.5h | Production Build | Optimized frontend bundle build | [`docs/day-15.md`](./docs/day-15.md) |
-| **16** | 2.5h | File Uploads & Cloud [Ext] | Multer binary uploads & URL storage | [`docs/day-16.md`](./docs/day-16.md) |
-| **17** | 2.5h | Real-Time WebSockets [Ext] | Socket.io real-time event broadcasting | [`docs/day-17.md`](./docs/day-17.md) |
-| **18** | 2.5h | Performance & CI/CD [Ext] | React Code-splitting & GitHub CI pipeline | [`docs/day-18.md`](./docs/day-18.md) |
-| **Total** | **45h** | | **18 Days × 2.5 Hours = 45 Total Hours** | |
+| Day | Topic | Implementation Completed | Daily Guide File |
+| :---: | :--- | :--- | :--- |
+| **01** | HTML5 & Node Setup | HTML5 forms & Node.js ESM scripts | [`docs/day-01.md`](./docs/day-01.md) |
+| **02** | Express HTTP Server | Express server listening on port 8000 | [`docs/day-02.md`](./docs/day-02.md) |
+| **03** | Express Routing | Dynamic parameter & query extraction | [`docs/day-03.md`](./docs/day-03.md) |
+| **04** | MongoDB & Mongoose | Mongoose schemas & MongoDB connection | [`docs/day-04.md`](./docs/day-04.md) |
+| **05** | REST API & CRUD | Full User RESTful CRUD API endpoints | [`docs/day-05.md`](./docs/day-05.md) |
+| **06** | MVC Architecture | Centralized Express error middleware | [`docs/day-06.md`](./docs/day-06.md) |
+| **07** | React & Vite Setup | Interactive Vite + React SPA | [`docs/day-07.md`](./docs/day-07.md) |
+| **08** | React Router v6 | Multi-page client SPA navigation | [`docs/day-08.md`](./docs/day-08.md) |
+| **09** | Controlled React Forms | Validated controlled form state | [`docs/day-09.md`](./docs/day-09.md) |
+| **10** | Axios API Integration | React form data saved to MongoDB | [`docs/day-10.md`](./docs/day-10.md) |
+| **11** | List Rendering | Database list tables with delete triggers | [`docs/day-11.md`](./docs/day-11.md) |
+| **12** | Password Security | `bcryptjs` encrypted password storage | [`docs/day-12.md`](./docs/day-12.md) |
+| **13** | JWT Authentication | Protected API routes & AuthContext | [`docs/day-13.md`](./docs/day-13.md) |
+| **14** | Validation & Testing | Automated test suite execution | [`docs/day-14.md`](./docs/day-14.md) |
+| **15** | Production Build | Optimized frontend bundle build | [`docs/day-15.md`](./docs/day-15.md) |
+| **16** | File Uploads & Cloud [Ext] | Multer binary uploads & URL storage | [`docs/day-16.md`](./docs/day-16.md) |
+| **17** | Real-Time WebSockets [Ext] | Socket.io real-time event broadcasting | [`docs/day-17.md`](./docs/day-17.md) |
+| **18** | Performance & CI/CD [Ext] | React Code-splitting & GitHub CI pipeline | [`docs/day-18.md`](./docs/day-18.md) |
 
 ---
 
@@ -260,7 +257,7 @@ For complete testing details, refer to the [Testing Guide](./docs/testing.md).
 * [`api-testing.md`](./docs/api-testing.md) — Complete REST API Specification & Postman Payload Guide
 * [`testing.md`](./docs/testing.md) — Automated & Manual Testing Strategy Guide
 * [`troubleshooting.md`](./docs/troubleshooting.md) — Troubleshooting & Common Error Resolutions
-* [`COURSE_PLAN.md`](./COURSE_PLAN.md) — 18-Day / 45-Hour Master Curriculum Schedule
+* [`COURSE_PLAN.md`](./COURSE_PLAN.md) — 18-Day Master Class & Project Progression
 * [`PROJECT_REPORT.md`](./PROJECT_REPORT.md) — 20-Section Comprehensive Engineering Report
 
 ---

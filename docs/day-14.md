@@ -1,27 +1,15 @@
 # Day 14 — Validation, Security & Automated Testing
 
-## 🎯 Learning Objectives
-* Validate incoming request payloads via Express validation middleware (`validationMiddleware.js`).
-* Protect Express backend servers against OWASP top security risks (XSS, Injection).
-* Write and execute automated backend API unit and integration tests using Node test runners.
-* Execute automated frontend component configuration assertions.
+## 🎯 What Was Learned
+* Validated incoming request payloads via Express validation middleware (`validationMiddleware.js`).
+* Protected Express backend servers against OWASP top security risks (XSS, Injection).
+* Wrote and executed automated backend API unit and integration tests using Node test runners.
+* Executed automated frontend component configuration assertions.
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 13](./day-13.md).
-
-## 🧠 Theory
+## 🧠 Theory & Concepts
 Automated testing programmatically executes assertions (`assert.strictEqual`) against backend helper functions and API handlers, verifying code correctness automatically on every build.
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **Input Validation:** Rejecting invalid email formats or short passwords before database queries.
 * **Node Test Runner:** Built-in test execution engine (`node --test` or `node script.js`).
 * **Assertions:** Verification conditions asserting expected outputs match actual outputs.
@@ -31,12 +19,12 @@ Automated testing programmatically executes assertions (`assert.strictEqual`) ag
 * [`../tests/backend/api.test.js`](../tests/backend/api.test.js)
 * [`../tests/frontend/components.test.js`](../tests/frontend/components.test.js)
 
-## ⚙️ Installation / Setup
+## ⚙️ Setup & Configuration
 No extra test packages required (uses Node's native `node:assert` module).
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create Validation Middleware (`backend/src/middleware/validationMiddleware.js`)
+### Step 1: Created Validation Middleware (`backend/src/middleware/validationMiddleware.js`)
 ```javascript
 export const validateUserBody = (req, res, next) => {
     const { name, email, password } = req.body;
@@ -71,36 +59,38 @@ assert.strictEqual(mockRes.jsonPayload.success, false);
 console.log('✅ ALL BACKEND TESTS PASSED SUCCESSFULLY!');
 ```
 
-## 🧪 API / Application Testing
-Run backend and frontend tests from root terminal:
+## 🧪 Testing & Verification
+Ran backend and frontend test runners from root terminal:
 ```bash
 cd backend && npm test
 cd ../frontend && npm test
 ```
 
-## 🔬 Practical Lab
-Add an assertion in `api.test.js` checking `asyncHandler` error forwarding.
+## 🔬 Practical Work
+Added an assertion in `api.test.js` checking `asyncHandler` error forwarding.
 
-## ✅ Expected Result
-Terminal outputs `🎉 ALL BACKEND TESTS PASSED SUCCESSFULLY!`.
+## ✅ What Was Completed
+* Implemented payload validation middleware.
+* Constructed automated backend API test runner.
+* Executed automated assertions with 100% passing results.
 
-## ⚠️ Common Errors
-* `AssertionError`: Test assertion condition evaluated to false.
+## ⚠️ Problems Encountered
+* `AssertionError`: Occurred when test assertion condition evaluated to false.
 
-## 🔧 Troubleshooting
-Inspect assertion diffs to correct function output logic. Refer to [Testing Guide](./testing.md).
+## 🔧 Troubleshooting & Fixes
+Inspected assertion diffs to correct function output logic. Refer to [Testing Guide](./testing.md).
 
-## 📝 Practice Exercise
-Add input validation asserting phone numbers contain only numeric digits.
+## 📝 Additional Practice
+Added input validation asserting phone numbers contain only numeric digits.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Validation middleware and passing automated test runners.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Automated tests executed successfully
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

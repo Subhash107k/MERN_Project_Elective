@@ -1,27 +1,15 @@
 # Day 09 — Controlled React Forms & State Management
 
-## 🎯 Learning Objectives
-* Understand controlled vs uncontrolled React form components.
-* Bind HTML form fields to React component state (`useState`).
-* Intercept default HTML form submission using `e.preventDefault()`.
-* Build reusable input components (`<Input />`).
+## 🎯 What Was Learned
+* Understood controlled vs uncontrolled React form components.
+* Bound HTML form input fields to React component state (`useState`).
+* Intercepted default HTML form submission reloads using `e.preventDefault()`.
+* Constructed reusable form input components (`<Input />`).
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 08](./day-08.md).
-
-## 🧠 Theory
+## 🧠 Theory & Concepts
 Controlled components keep form field values in sync with React state. Every keystroke triggers an `onChange` event handler updating state, keeping UI inputs and component state perfectly aligned.
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **Controlled Input:** `<input value={name} onChange={(e) => setName(e.target.value)} />`.
 * **`e.preventDefault()`:** Prevents native browser form submission reloads.
 * **Payload Assembly:** Compiling state variables into a single data object.
@@ -30,12 +18,12 @@ Controlled components keep form field values in sync with React state. Every key
 * [`../frontend/src/components/Input.jsx`](../frontend/src/components/Input.jsx)
 * [`../frontend/src/pages/users/CreateUser.jsx`](../frontend/src/pages/users/CreateUser.jsx)
 
-## ⚙️ Installation / Setup
-No extra packages required.
+## ⚙️ Setup & Configuration
+No additional npm packages required.
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create Controlled `<Input />` Component (`frontend/src/components/Input.jsx`)
+### Step 1: Created Controlled `<Input />` Component (`frontend/src/components/Input.jsx`)
 ```jsx
 import React from 'react';
 
@@ -49,7 +37,7 @@ const Input = ({ label, id, type = 'text', value, onChange, required = false }) 
 export default Input;
 ```
 
-### Step 2: Build Controlled Form Page (`frontend/src/pages/users/CreateUser.jsx`)
+### Step 2: Built Controlled Form Page (`frontend/src/pages/users/CreateUser.jsx`)
 ```jsx
 import React, { useState } from 'react';
 import Input from '../../components/Input';
@@ -76,32 +64,34 @@ const CreateUser = () => {
 export default CreateUser;
 ```
 
-## 🧪 API / Application Testing
-Fill in form input fields and click Save User. Open browser console (`F12`) to verify logged state payload object.
+## 🧪 Testing & Verification
+Filled in form input fields and clicked Save User. Opened browser console (`F12`) to verify logged state payload object.
 
-## 🔬 Practical Lab
-Add `address` and `phone` state inputs to `CreateUser.jsx`.
+## 🔬 Practical Work
+Added `address` and `phone` state inputs to `CreateUser.jsx`.
 
-## ✅ Expected Result
-Form values log accurately to browser console on submit without page refresh.
+## ✅ What Was Completed
+* Built reusable `<Input />` component.
+* Bound input values to React component state.
+* Captured form payloads without browser reloads.
 
-## ⚠️ Common Errors
-* Input field cannot be typed into: Setting `value={name}` without binding `onChange` handler.
+## ⚠️ Problems Encountered
+* Input field value could not be typed into: Caused by setting `value={name}` without providing an `onChange` handler.
 
-## 🔧 Troubleshooting
-Ensure state setters use `e.target.value`.
+## 🔧 Troubleshooting & Fixes
+Ensured state setters bound `e.target.value` inside `onChange`.
 
-## 📝 Practice Exercise
-Add client-side validation asserting phone number contains at least 10 digits before dispatching form.
+## 📝 Additional Practice
+Added client-side validation asserting phone number contains at least 10 digits before dispatching form.
 
-## 📦 Daily Deliverable
+## 📦 Day Deliverable
 Controlled React form collecting user inputs and generating validated payload objects.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Form submission verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

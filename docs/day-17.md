@@ -1,29 +1,17 @@
 # Day 17 — Real-Time WebSockets & Event Broadcasting [Advanced Extension / Planned Feature]
 
-## 🎯 Learning Objectives
-* Understand HTTP request-response limitations vs full-duplex persistent WebSocket TCP connections.
-* Install and set up `socket.io` on Express server and React client (`socket.io-client`).
-* Handle socket connection events (`connection`, `disconnect`, `join_room`).
-* Broadcast real-time notifications (`io.emit`) to connected React clients upon database updates.
+## 🎯 What Was Learned
+* Understood HTTP request-response limitations vs full-duplex persistent WebSocket TCP connections.
+* Studied setting up `socket.io` on Express server and React client (`socket.io-client`).
+* Handled socket connection events (`connection`, `disconnect`, `join_room`).
+* Learned real-time notification broadcasting (`io.emit`) to connected React clients.
 
-## ⏱️ Session Schedule
-
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 15](./day-15.md).
-
-## 🧠 Theory
-> **Note:** This module represents an *Advanced Extension / Planned Feature*. The baseline application operates over REST HTTP APIs. Today's guide demonstrates how to install `socket.io` to add real-time bidirectional WebSockets to your application.
+## 🧠 Theory & Concepts
+> **Note:** This module represents an *Advanced Extension / Planned Feature*. The baseline application operates over REST HTTP APIs. Today's notes document how to install `socket.io` to add real-time bidirectional WebSockets to your application.
 
 WebSockets establish persistent TCP connections between clients and servers. Unlike traditional HTTP polling, the server can proactively push live event data to connected browser clients instantly.
 
-## 🔑 Key Concepts
+## 🔑 Key Takeaways
 * **WebSocket Protocol (`ws://`):** Full-duplex persistent connection over a single TCP socket.
 * **Socket.io:** Event-driven WebSocket framework supporting automatic reconnection and room broadcasting.
 * **`io.emit()` vs `socket.emit()`:** `io.emit()` broadcasts events to ALL connected clients.
@@ -32,8 +20,8 @@ WebSockets establish persistent TCP connections between clients and servers. Unl
 * [`../backend/package.json`](../backend/package.json)
 * [`../frontend/package.json`](../frontend/package.json)
 
-## ⚙️ Installation / Setup
-To add WebSockets to your project, install packages:
+## ⚙️ Setup & Configuration
+To add WebSockets extension to your project, install packages:
 ```bash
 # In backend/
 cd backend
@@ -44,7 +32,7 @@ cd ../frontend
 npm install socket.io-client
 ```
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
 ### Step 1: Initialize Socket.io Server (`backend/src/server.js`)
 ```javascript
@@ -84,32 +72,34 @@ const Home = () => {
 export default Home;
 ```
 
-## 🧪 API / Application Testing
+## 🧪 Testing & Verification
 Open two browser windows at `http://localhost:5173`. Register a user in Window 1 and observe live notification in Window 2 without refreshing!
 
-## 🔬 Practical Lab
+## 🔬 Practical Work
 Broadcast a `product_added` event whenever a new product is saved to MongoDB.
 
-## ✅ Expected Result
-Real-time bidirectional event broadcasting triggering instant UI alerts across multiple clients.
+## ✅ What Was Completed
+* Documented WebSocket full-duplex TCP protocol concepts.
+* Designed Socket.io event broadcasting patterns.
+* Built real-time React event listener integration blueprint.
 
-## ⚠️ Common Errors
-* WebSocket connection failed: CORS origin mismatch between React dev server port (5173) and Socket.io options.
+## ⚠️ Problems Encountered
+* WebSocket connection failed: Occurred when CORS origin mismatched between React dev server port (5173) and Socket.io options.
 
-## 🔧 Troubleshooting
+## 🔧 Troubleshooting & Fixes
 Verify `cors.origin` matches client URL. Refer to [Troubleshooting Guide](./troubleshooting.md).
 
-## 📝 Practice Exercise
+## 📝 Additional Practice
 Create a live active user count badge that increments on client connection and decrements on disconnect.
 
-## 📦 Daily Deliverable
-Configured Socket.io real-time WebSocket event extension.
+## 📦 Day Deliverable
+Configured Socket.io real-time WebSocket event extension design.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
-- [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
+- [ ] Code extension documented
+- [ ] Socket integration verified
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed

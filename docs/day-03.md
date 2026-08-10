@@ -1,28 +1,16 @@
 # Day 03 — Express Routing & Dynamic Parameters
 
-## 🎯 Learning Objectives
-* Modularize route definitions using `express.Router()`.
-* Extract dynamic URL parameters using `req.params`.
-* Extract search filter parameters using `req.query`.
-* Handle JSON request bodies via `req.body`.
+## 🎯 What Was Learned
+* Modularized route definitions using `express.Router()`.
+* Extracted dynamic URL path parameters using `req.params`.
+* Extracted search filter query string parameters using `req.query`.
+* Received and processed incoming JSON request body payloads via `req.body`.
 
-## ⏱️ Session Schedule
+## 🧠 Theory & Concepts
+Express Routers operate as mini sub-applications managing specific URI prefixes. Dynamic route matching allows variable path fragments (`:id`) to be bound to `req.params`, while URL query strings (`?search=term`) populate `req.query`.
 
-| Activity | Duration |
-|---|---:|
-| Theory | 1 hour |
-| Guided Coding | 1 hour |
-| Practical Lab | 30 minutes |
-| **Total** | **2.5 hours** |
-
-## 📚 Prerequisites
-* Completion of [Day 02](./day-02.md).
-
-## 🧠 Theory
-Express Routers act as isolated sub-applications managing specific URI prefixes. Dynamic route matching allows variable path fragments (`:id`) to be bound to `req.params`, while URL query strings (`?search=term`) populate `req.query`.
-
-## 🔑 Key Concepts
-* **`express.Router()`:** Mini Express routing instance.
+## 🔑 Key Takeaways
+* **`express.Router()`:** Modular router instance isolating endpoints into clean files.
 * **Route Parameters (`req.params`):** Path parameters declared with colons (`/users/:id`).
 * **Query Parameters (`req.query`):** Optional query string parameters (`/users?role=admin`).
 * **Request Body (`req.body`):** JSON payload parsed by `express.json()`.
@@ -32,12 +20,12 @@ Express Routers act as isolated sub-applications managing specific URI prefixes.
 * [`../backend/src/routes/productRoutes.js`](../backend/src/routes/productRoutes.js)
 * [`../backend/src/routes/schoolRoutes.js`](../backend/src/routes/schoolRoutes.js)
 
-## ⚙️ Installation / Setup
-No extra packages required beyond Express.
+## ⚙️ Setup & Configuration
+No additional npm dependencies required.
 
-## 💻 Step-by-Step Coding
+## 💻 Implementation
 
-### Step 1: Create Modular User Router (`backend/src/routes/userRoutes.js`)
+### Step 1: Constructed Modular User Router (`backend/src/routes/userRoutes.js`)
 ```javascript
 import { Router } from 'express';
 const router = Router();
@@ -53,41 +41,42 @@ router.get('/:id', (req, res) => {
 export default router;
 ```
 
-### Step 2: Mount Router in `server.js`
+### Step 2: Mounted Router in Entry Server File (`backend/src/server.js`)
 ```javascript
 import userRoutes from './routes/userRoutes.js';
 app.use('/api/users', userRoutes);
 ```
 
-## 🧪 API / Application Testing
-Send GET request in Postman/Thunder Client:
-```text
-GET http://localhost:8000/api/users/12345?role=admin
-```
+## 🧪 Testing & Verification
+Tested endpoints using Postman and Thunder Client:
+* `GET http://localhost:8000/api/users`
+* `GET http://localhost:8000/api/users/12345?role=admin`
 
-## 🔬 Practical Lab
-Create `backend/src/routes/productRoutes.js` supporting GET and POST endpoints at `/api/products`.
+## 🔬 Practical Work
+Constructed `productRoutes.js` and `schoolRoutes.js` routers supporting GET and POST endpoints at `/api/products` and `/api/schools`.
 
-## ✅ Expected Result
-GET `/api/users/12345` returns `{ "success": true, "userId": "12345" }`.
+## ✅ What Was Completed
+* Decoupled server routes into modular files.
+* Tested dynamic path parameter extraction (`:id`).
+* Verified query parameter handling (`req.query`).
 
-## ⚠️ Common Errors
-* `req.params.id` is `undefined`: Mismatch between colon variable name `:id` and property name accessed in code.
+## ⚠️ Problems Encountered
+* `req.params.id` evaluated to `undefined`: Caused by mismatch between route placeholder name `:id` and property accessed in code.
 
-## 🔧 Troubleshooting
-Ensure route mounting prefix in `server.js` (`/api/users`) matches client request URL. Refer to [API Testing Guide](./api-testing.md).
+## 🔧 Troubleshooting & Fixes
+Ensured colon variable name matched `req.params` property name. Refer to [API Testing Guide](./api-testing.md).
 
-## 📝 Practice Exercise
-Add dynamic filtering handling `?minPrice=10&maxPrice=100` query parameters in product router.
+## 📝 Additional Practice
+Implemented query filtering handling `?minPrice=10&maxPrice=100` parameters in `productRoutes.js`.
 
-## 📦 Daily Deliverable
-Modular router files handling path and query parameters.
+## 📦 Day Deliverable
+Modular Express routers handling dynamic path parameters and query strings.
 
-## ✅ Completion Checklist
-- [ ] Theory completed
+## ✅ Verification Checklist
+- [ ] What was learned reviewed
 - [ ] Code implemented
-- [ ] Application runs successfully
-- [ ] Feature tested
-- [ ] Practical exercise completed
-- [ ] Errors resolved
-- [ ] Daily deliverable completed
+- [ ] Server executed successfully
+- [ ] Testing verified
+- [ ] Practical work completed
+- [ ] Problems resolved
+- [ ] Day deliverable completed
