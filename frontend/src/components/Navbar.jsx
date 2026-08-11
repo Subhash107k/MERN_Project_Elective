@@ -1,40 +1,54 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleLogout = () => {
         logout();
+        setIsMenuOpen(false);
         navigate('/login');
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
     };
 
     return (
         <nav className="navbar">
-            <NavLink to="/" className="navbar-brand">
+            <NavLink to="/" className="navbar-brand" onClick={closeMenu}>
                 🚀 MERN Course App
             </NavLink>
 
-            <ul className="navbar-nav">
+            <button 
+                className="navbar-toggle" 
+                onClick={() => setIsMenuOpen(!isMenuOpen)} 
+                aria-label="Toggle navigation menu"
+            >
+                {isMenuOpen ? '✕' : '☰'}
+            </button>
+
+            <ul className={`navbar-nav ${isMenuOpen ? 'active' : ''}`}>
                 <li>
-                    <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                    <NavLink to="/" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                         Dashboard
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/users" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                    <NavLink to="/users" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                         Users
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                    <NavLink to="/products" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                         Products
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/schools" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                    <NavLink to="/schools" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                         Schools
                     </NavLink>
                 </li>
@@ -53,12 +67,12 @@ const Navbar = () => {
                 ) : (
                     <>
                         <li>
-                            <NavLink to="/login" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                            <NavLink to="/login" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                                 Login
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/register" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
+                            <NavLink to="/register" className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')} onClick={closeMenu}>
                                 Register
                             </NavLink>
                         </li>
@@ -70,3 +84,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

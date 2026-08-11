@@ -31,7 +31,7 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1 style={{ marginBottom: '1.5rem' }}>🎓 15-Day / 45-Hour MERN Course Dashboard</h1>
+            <h1 style={{ marginBottom: '1.5rem' }}>🎓 MERN Project Elective Dashboard</h1>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
                 <Card title="👥 Users">
@@ -59,14 +59,15 @@ const Home = () => {
                 </Card>
             </div>
 
-            <Card title="📌 Educational Progression & Features">
+            <Card title="📌 Class Progression & Implementation Highlights">
                 <ul style={{ paddingLeft: '1.25rem', lineHeight: '2' }}>
-                    <li>✅ <strong>Day 1-3:</strong> Node.js, Express framework, and REST routing protocols</li>
-                    <li>✅ <strong>Day 4-6:</strong> MongoDB Atlas & Mongoose ODM models with validation rules</li>
-                    <li>✅ <strong>Day 7-9:</strong> React 18 SPA components, hooks (`useState`, `useEffect`), and controlled form validation</li>
-                    <li>✅ <strong>Day 10-11:</strong> Axios API service layer and database state rendering</li>
-                    <li>✅ <strong>Day 12-13:</strong> `bcryptjs` password hashing and JWT authentication tokens</li>
-                    <li>✅ <strong>Day 14-15:</strong> Form validation, automated testing, and production deployment configuration</li>
+                    <li>✅ <strong>Day 01-03:</strong> Node.js runtime, Express HTTP framework, and REST routing protocols</li>
+                    <li>✅ <strong>Day 04-06:</strong> MongoDB database & Mongoose ODM models with validation rules & error middleware</li>
+                    <li>✅ <strong>Day 07-09:</strong> React 18 SPA components, hooks (`useState`, `useEffect`), and controlled input forms</li>
+                    <li>✅ <strong>Day 10-11:</strong> Axios API service integration and database table state rendering</li>
+                    <li>✅ <strong>Day 12-13:</strong> `bcryptjs` password encryption and JWT authentication state management</li>
+                    <li>✅ <strong>Day 14-15:</strong> Input validation, automated test runners, and production build bundling</li>
+                    <li>✅ <strong>Day 16-18:</strong> File uploads, WebSockets, and CI/CD workflow pipeline architecture</li>
                 </ul>
             </Card>
         </div>
